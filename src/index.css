@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+/* Tambahkan ini jika desain masih belum muncul */
+@source "../index.html";
+@source "./**/*.{js,ts,jsx,tsx}";
