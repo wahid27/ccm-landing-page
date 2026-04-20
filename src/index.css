@@ -1,5 +1,20 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Tambahkan ini jika desain masih belum muncul */
-@source "../index.html";
-@source "./**/*.{js,ts,jsx,tsx}";
+:root {
+font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+line-height: 1.5;
+font-weight: 400;
+}
+
+body {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+/* Smooth Scrolling */
+html {
+scroll-behavior: smooth;
+}
