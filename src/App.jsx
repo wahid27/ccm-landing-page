@@ -316,8 +316,11 @@ export default function App() {
                 <div style={{display: 'none'}} className="h-full w-full items-center justify-center text-[#0000ff] font-black text-xl">M</div>
             </div>
             <div className="flex flex-col">
-                <span className="text-[10px] font-black text-white leading-none uppercase tracking-tighter">PT CHAERUNISA CITRA</span>
-                <span className="text-[10px] font-black text-[#0000ff] leading-none uppercase tracking-tighter">MANDIRI</span>
+                <span className="text-[12px] font-black text-white leading-none uppercase tracking-tighter">
+  PT CHAERUNISA CITRA{" "}
+  <span className="text-[#0000ff]">MANDIRI</span>
+</span>
+
             </div>
           </div>
           <div className="hidden md:flex items-center gap-8 text-[10px] font-black uppercase tracking-widest text-gray-300">
