@@ -94,11 +94,9 @@ export default function App() {
   
   // --- KONFIGURASI PATH GAMBAR LOKAL (SEMUA DARI FOLDER PUBLIC) ---
   const logoPath = "/logo-ccm.png";
-  const iconPath = "/icon-ccm.png";
+  const iconPath = "/icons.svg";
   const aboutPath = "/about-ccm.jpg";
-  const logoPath = "/logo-ccm.png";
-  const iconPath = "/icon-ccm.png";
-  const aboutPath = "/about-ccm.jpg";  
+ 
 
   const [siteData, setSiteData] = useState({
     hero: [
@@ -121,7 +119,7 @@ export default function App() {
       { label: "Proyek Selesai", value: "100+", icon: <Target className="text-orange-500" /> },
       { label: "Sertifikasi ISO", value: "9001", icon: <ShieldCheck className="text-blue-600" /> }
     ],
-    comproUrl: "/COMPRO-CCM-NEW.pdf", // Ganti ke path lokal jika PDF ditaruh di public
+    comproUrl: "https://drive.google.com/file/d/1QK0HE4pXlXkqhkNPgMCKhWImC3vkJ4jS/view?usp=sharing", // Ganti ke path lokal jika PDF ditaruh di public
     clients: [
       { name: "PT Bukit Asam, Tbk", icon: <Building2 className="text-orange-500" /> },
       { name: "PT PLN (Persero)", icon: <Zap className="text-blue-500" /> },
@@ -285,8 +283,22 @@ export default function App() {
       )}
 
       {/* Floating WA */}
-      <a href={`https://wa.me/${siteData.contact.phone.replace(/\D/g,'')}`} target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-[60] bg-green-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all animate-bounce flex items-center justify-center border-4 border-white shadow-green-500/20"><MessageCircle size={32} /></a>
-
+      {/* Floating WA dengan Hover Text */}
+<a 
+  href={`https://wa.me/${siteData.contact.phone.replace(/\D/g,'')}`} 
+  target="_blank" 
+  rel="noopener noreferrer" 
+  className="fixed bottom-6 right-6 z-[60] bg-green-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all animate-bounce flex items-center justify-center border-4 border-white shadow-green-500/20 group"
+>
+  <MessageCircle size={32} />
+  
+  {/* Tooltip Label yang muncul saat hover */}
+  <span className="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none shadow-xl border border-white/10">
+    Chat dengan admin kami
+    {/* Segitiga Panah kecil */}
+    <span className="absolute top-1/2 -translate-y-1/2 left-full w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[8px] border-l-slate-900"></span>
+  </span>
+</a>
       {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 px-6 py-3 transition-all duration-500 ${scrolled ? 'bg-[#1a202c]/95 shadow-2xl backdrop-blur-md' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -405,7 +417,7 @@ export default function App() {
                       </div>
                       <div className="space-y-4">
                         <img src="/benefit-3.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20" alt="Work 3" />
-                        <img src="/benefit-1.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20" alt="Work 4" />
+                        <img src="/benefit-2.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20" alt="Work 4" />
                       </div>
                   </div>
               </div>
@@ -628,8 +640,8 @@ export default function App() {
                     />
                   </div>
                   <div className="flex flex-col">
-                      <span className="text-xl font-black text-white leading-none uppercase tracking-tighter">PT CHAERUNISA CITRA</span>
-                      <span className="text-xl font-black text-[#0000ff] leading-none uppercase tracking-tighter">MANDIRI</span>
+                      <span className="text-xxl font-black text-white leading-none uppercase tracking-tighter">PT CHAERUNISA CITRA</span>
+                      <span className="text-xxl font-black text-[#0000ff] leading-none uppercase tracking-tighter">MANDIRI</span>
                   </div>
               </div>
               <p className="text-lg font-medium leading-relaxed max-w-sm mb-8 opacity-70">Membangun masa depan dengan standar teknik tinggi, integritas terpercaya, dan solusi inovatif.</p>
