@@ -94,7 +94,7 @@ export default function App() {
   
   // --- KONFIGURASI PATH GAMBAR LOKAL (SEMUA DARI FOLDER PUBLIC) ---
   const logoPath = "/logo-ccm.png";
-  const iconPath = "/icons.svg";
+  const iconPath = "/logo-ccm.png";
   const aboutPath = "/about-ccm.jpg";
  
 
@@ -332,6 +332,50 @@ export default function App() {
           <button className="md:hidden text-white" aria-label="Menu" onClick={() => setIsMenuOpen(!isMenuOpen)}>{isMenuOpen ? <X size={28} /> : <Menu size={28} />}</button>
         </div>
       </nav>
+      {/* OVERLAY */}
+<div
+  className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-all duration-300 ${
+    isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"
+  }`}
+  onClick={() => setIsMenuOpen(false)}
+></div>
+
+{/* SIDEBAR */}
+<div
+  className={`fixed top-0 right-0 h-full w-[75%] max-w-[300px] bg-[#0f172a] z-50 transform transition-all duration-300 ease-in-out ${
+    isMenuOpen ? "translate-x-0" : "translate-x-full"
+  }`}
+>
+  {/* HEADER */}
+  <div className="flex items-center justify-between p-5 border-b border-white/10">
+    <span className="text-white font-bold">MENU</span>
+    <button onClick={() => setIsMenuOpen(false)}>
+      <X size={26} className="text-white" />
+    </button>
+  </div>
+
+  {/* MENU */}
+  <div className="flex flex-col p-5 space-y-4">
+    {['home', 'services', 'testimonials', 'about', 'projects', 'faq'].map((item) => (
+      <a
+        key={item}
+        href={`#${item}`}
+        onClick={() => setIsMenuOpen(false)}
+        className="text-white text-sm font-semibold uppercase tracking-wider hover:text-[#0000ff] transition"
+      >
+        {item}
+      </a>
+    ))}
+
+    <a
+      href="#contact"
+      onClick={() => setIsMenuOpen(false)}
+      className="mt-4 bg-[#0000ff] text-white text-center py-3 rounded-xl font-bold"
+    >
+      Hubungi Kami
+    </a>
+  </div>
+</div>
 
       {/* Hero Section */}
       <section id="home" className="relative h-screen flex items-center pt-20 overflow-hidden bg-slate-900">
