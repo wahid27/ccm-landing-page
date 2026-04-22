@@ -162,26 +162,28 @@ export default function App() {
       { title: "Astra Daihatsu Motor Karawang", category: "Construction", image: "/proyek-1.jpg" },
       { title: "Supply Batu Andesit PT Bukit Asam", category: "Supplier", image: "/proyek-2.jpg" },
       { title: "Perumahan Mutiara Gemilang", category: "Construction", image: "/proyek-3.jpg" }
-    ],
+], // Akhir dari array sebelum faqs
     faqs: [
       { q: "Sejak kapan PT CCM beroperasi?", a: "Didirikan pada 19 Juli 2016 di Bandung dan kini fokus melayani wilayah Sumatera Selatan dan sekitarnya." },
       { q: "Apa saja rincian material konstruksi yang disediakan?", a: "Kami menyediakan material SNI seperti Batu Andesit (Splite), Pasir, Besi Beton (KS, KSTY), Semen, dan Wiremesh." },
       { q: "Jenis armada transportasi apa yang tersedia?", a: "Dump Truck Colt Diesel, Tronton Trailer, hingga Lowbed Trailer milik sendiri." },
       { q: "Apakah CCM tersertifikasi?", a: "Ya, kami telah tersertifikasi SNI ISO 9001:2015 untuk Sistem Manajemen Mutu." }
     ],
-  const contact = {
-    phone: "0811258995",
-    email: "chaerunisa.citra.mandiri@gmail.com",
-    address: "Jl. Perindustrian II Gang Manggis No. 138 Palembang",
-    branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
-  };
+    contact: {
+      phone: "0811258995",
+      email: "chaerunisa.citra.mandiri@gmail.com",
+      address: "Jl. Perindustrian II Gang Manggis No. 138 Palembang",
+      branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
+    }
+  }; // <--- Pastikan objek utama ditutup di sini
 
+  // Deklarasi Link WhatsApp & Email (di luar objek)
   const waLink = `https://wa.me/62${contact.phone.substring(1)}`;
   const emailLink = `mailto:${contact.email}`;
 
+  // State untuk Form
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitStatus, setSubmitStatus] = useState(null);
-
   useEffect(() => {
     document.title = "PT Chaerunisa Citra Mandiri | General Contractor & Supplier";
     const timer = setTimeout(() => setIsLoadingContent(false), 5000);
