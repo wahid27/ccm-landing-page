@@ -170,7 +170,9 @@ export default function App() {
       { q: "Apakah CCM tersertifikasi?", a: "Ya, kami telah tersertifikasi SNI ISO 9001:2015 untuk Sistem Manajemen Mutu." }
     ],
     contact: { 
-      phone: "0811258995", 
+      phone: "0811258995", <a href={`https://wa.me/62${contact.phone.substring(1)}`} target="_blank">
+  0811258995
+</a> 
       email: "chaerunisa.citra.mandiri@gmail.com",
       address: "Jl. Perindustrian II Gang Manggis No. 138 Palembang",
       branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
