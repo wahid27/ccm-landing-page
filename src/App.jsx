@@ -666,7 +666,7 @@ export default function App() {
                         <button disabled={submitStatus === 'loading'} type="submit" className="w-full bg-[#0000ff] text-white font-black py-6 rounded-2xl hover:bg-blue-700 transition-all flex items-center justify-center gap-4 shadow-xl text-xl active:scale-95">
                           {submitStatus === 'loading' ? <Loader2 className="animate-spin" /> : <><Send size={24} /> Kirim Pesan</>}
                         </button>
-                        {submitStatus === 'success' && <p className="text-green-600 font-bold text-center animate-bounce mt-4">✓ Pesan terkirim ke tim kami!</p>}
+                        {submitStatus === 'success' && <p className="text-green-600 font-bold text-center animate-bounce mt-4">✓ Pesan terkirim! tim kami akan segera menghubungi anda, thx!</p>}
                         {submitStatus === 'error' && <p className="text-red-600 font-bold text-center mt-4">Gagal mengirim pesan. Coba lagi nanti.</p>}
                     </form>
                 </div>
