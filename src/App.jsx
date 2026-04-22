@@ -169,25 +169,15 @@ export default function App() {
       { q: "Jenis armada transportasi apa yang tersedia?", a: "Dump Truck Colt Diesel, Tronton Trailer, hingga Lowbed Trailer milik sendiri." },
       { q: "Apakah CCM tersertifikasi?", a: "Ya, kami telah tersertifikasi SNI ISO 9001:2015 untuk Sistem Manajemen Mutu." }
     ],
-    const contact = { 
-  phone: "0811258995", 
-  email: "chaerunisa.citra.mandiri@gmail.com"
-};
+  const contact = {
+    phone: "0811258995",
+    email: "chaerunisa.citra.mandiri@gmail.com",
+    address: "Jl. Perindustrian II Gang Manggis No. 138 Palembang",
+    branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
+  };
 
-// Menghilangkan angka 0 di depan dan menambah 62
-const waFormatted = `https://wa.me/62${contact.phone.substring(1)}`;
-const emailLink = `mailto:${contact.email}`;
-
-console.log(waFormatted); // Hasil: https://wa.me/62811258995
-    contact: { 
-      phone: "0811258995", <a href={`https://wa.me/62${contact.phone.substring(1)}`} target="_blank">
-  0811258995
-</a> 
-      email: "chaerunisa.citra.mandiri@gmail.com",
-      address: "Jl. Perindustrian II Gang Manggis No. 138 Palembang",
-      branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
-    }
-  });
+  const waLink = `https://wa.me/62${contact.phone.substring(1)}`;
+  const emailLink = `mailto:${contact.email}`;
 
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitStatus, setSubmitStatus] = useState(null);
