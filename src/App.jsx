@@ -5,7 +5,7 @@ import {
   Phone, Mail, MapPin, Menu, X, 
   CheckCircle2, MessageCircle, ChevronDown,
   Zap, Loader2, Send, Settings, Save, 
-  Briefcase, Factory, FileDown, Users, Target, TrendingUp
+  Briefcase, Factory, FileDown, Users, Target, TrendingUp, Plus, Minus
 } from 'lucide-react';
 
 // Firebase Imports
@@ -73,8 +73,8 @@ export default function App() {
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [isLoadingContent, setIsLoadingContent] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [showAllProjects, setShowAllProjects] = useState(false);
   
-  // Path Gambar Publik
   const logoPath = "/logo-ccm.png";
   const iconPath = "/logo-ccm.png";
   const aboutPath = "/about-ccm.jpg";
@@ -142,7 +142,12 @@ export default function App() {
     projects: [
       { title: "Astra Daihatsu Motor Karawang", category: "Construction", image: "/proyek-1.jpg" },
       { title: "Supply Batu Andesit PT Bukit Asam", category: "Supplier", image: "/proyek-2.jpg" },
-      { title: "Perumahan Mutiara Gemilang", category: "Construction", image: "/proyek-3.jpg" }
+      { title: "Perumahan Mutiara Gemilang", category: "Construction", image: "/proyek-3.jpg" },
+      { title: "Pembangunan Jembatan Regional", category: "Infrastructure", image: "/proyek-4.jpg" },
+      { title: "Gudang Logistik Muaraenim", category: "Construction", image: "/proyek-5.jpg" },
+      { title: "Infrastruktur Jalan Tol Sumsel", category: "Infrastructure", image: "/proyek-6.jpg" },
+      { title: "Supply Besi Beton Proyek PLTU", category: "Supplier", image: "/proyek-7.jpg" },
+      { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-1.jpg" }
     ],
     faqs: [
       { q: "Sejak kapan PT CCM beroperasi?", a: "Didirikan pada 19 Juli 2016 di Bandung dan kini fokus melayani wilayah Sumatera Selatan dan sekitarnya." },
@@ -158,7 +163,7 @@ export default function App() {
     }
   });
 
-  // Logika URL WhatsApp (Otomatis ganti 0 ke 62)
+  // Link WhatsApp Otomatis
   const waLink = `https://wa.me/62${siteData.contact.phone.substring(1)}`;
   const emailLink = `mailto:${siteData.contact.email}`;
 
@@ -167,7 +172,7 @@ export default function App() {
 
   useEffect(() => {
     document.title = "PT Chaerunisa Citra Mandiri | General Contractor & Supplier";
-    const timer = setTimeout(() => setIsLoadingContent(false), 2500);
+    const timer = setTimeout(() => setIsLoadingContent(false), 2000);
     const initAuth = async () => {
       try { await signInAnonymously(auth); } catch (err) { console.error("Auth Error:", err); }
     };
@@ -240,11 +245,18 @@ export default function App() {
     </div>
   );
 
-  const filteredProjects = projectFilter === 'All' ? siteData.projects : siteData.projects.filter(p => p.category === projectFilter);
+  // LOGIKA FILTER DAN LIMIT GALERI (Update ke 6)
+  const filteredProjects = projectFilter === 'All' 
+    ? siteData.projects 
+    : siteData.projects.filter(p => p.category === projectFilter);
+  
+  const displayedProjects = showAllProjects 
+    ? filteredProjects 
+    : filteredProjects.slice(0, 6);
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 overflow-x-hidden selection:bg-blue-100 scroll-smooth">
-      {/* Admin Mode Toolbar */}
+      {/* Admin Mode UI */}
       {isAdminMode && (
         <div className="fixed top-24 right-6 z-[100] bg-white p-5 rounded-[2rem] shadow-2xl border-2 border-[#0000ff] flex flex-col gap-4 animate-fade-in-up w-72">
           <div className="flex items-center gap-2 text-[#0000ff] font-black text-xs uppercase tracking-widest"><Settings size={16}/> Mode Admin</div>
@@ -255,7 +267,7 @@ export default function App() {
       )}
 
       {/* Floating WA Button */}
-      <a href={waLink} target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-[60] bg-green-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all animate-bounce flex items-center justify-center border-4 border-white shadow-green-500/20 group">
+      <a href={waLink} target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-[60] bg-green-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all animate-bounce flex items-center justify-center border-4 border-white group">
         <MessageCircle size={32} />
         <span className="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none shadow-xl border border-white/10">
           Chat WhatsApp Admin
@@ -263,7 +275,7 @@ export default function App() {
         </span>
       </a>
 
-      {/* Navigation */}
+      {/* Navigasi */}
       <nav className={`fixed top-0 w-full z-50 px-6 py-3 transition-all duration-500 ${scrolled ? 'bg-[#1a202c]/95 shadow-2xl backdrop-blur-md' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3 group cursor-pointer">
@@ -286,9 +298,9 @@ export default function App() {
 
       {/* Sidebar Mobile Menu */}
       <div className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`} onClick={() => setIsMenuOpen(false)}></div>
-      <div className={`fixed top-0 right-0 h-full w-[75%] max-w-[300px] bg-[#0f172a] z-50 transform transition-transform duration-300 ease-in-out ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
+      <div className={`fixed top-0 right-0 h-full w-[75%] max-w-[300px] bg-[#0f172a] z-50 transform transition-all duration-300 ease-in-out ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
         <div className="flex items-center justify-between p-5 border-b border-white/10">
-          <span className="text-white font-bold tracking-widest text-xs">MENU</span>
+          <span className="text-white font-bold tracking-widest text-xs uppercase text-white">MENU</span>
           <button onClick={() => setIsMenuOpen(false)}><X size={26} className="text-white" /></button>
         </div>
         <div className="flex flex-col p-5 space-y-4">
@@ -312,10 +324,10 @@ export default function App() {
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600/20 border border-blue-500/30 rounded-full mb-8 text-[#0000ff] font-black text-[10px] uppercase tracking-[0.2em]">
                 <Zap size={14} /> {siteData.hero[currentSlide]?.tag}
             </div>
-            <h1 className="text-5xl md:text-8xl font-black text-white leading-[1.1] mb-8 drop-shadow-2xl">
+            <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] drop-shadow-2xl">
                 {siteData.hero[currentSlide]?.title}
             </h1>
-            <p className="text-gray-300 text-xl max-w-2xl mb-12 leading-relaxed opacity-90">{siteData.hero[currentSlide]?.desc}</p>
+            <p className="text-gray-300 text-xl max-w-2xl mb-12 leading-relaxed font-medium opacity-90">{siteData.hero[currentSlide]?.desc}</p>
             <div className="flex flex-wrap gap-4">
                 <a href="#contact" className="bg-[#0000ff] text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-700 transition-all shadow-2xl active:scale-95 flex items-center gap-3">Mulai Sekarang <ChevronRight /></a>
                 <a href={siteData.comproUrl} target="_blank" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-black text-xl hover:bg-white/20 transition-all flex items-center gap-3">
@@ -327,20 +339,26 @@ export default function App() {
       </section>
 
       {/* Infinite Client Slider */}
-      <div className="bg-slate-50 py-16 border-y border-slate-200 overflow-hidden relative">
-          <div className="flex relative whitespace-nowrap animate-infinite-scroll">
+      <section className="bg-slate-50 py-24 border-y border-slate-200 overflow-hidden relative">
+          <RevealSection className="max-w-7xl mx-auto px-6 mb-16 text-center">
+            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Mitra Strategis & Klien</h3>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">Dipercaya Oleh Berbagai Perusahaan Besar</h2>
+            <div className="w-16 h-1.5 bg-[#0000ff] mx-auto rounded-full"></div>
+          </RevealSection>
+          
+          <div className="flex relative whitespace-nowrap animate-infinite-scroll hover:[animation-play-state:paused]">
                 {[...siteData.clients, ...siteData.clients].map((client, i) => (
-                    <div key={i} className="inline-flex items-center gap-4 px-12 py-6 bg-white mx-4 rounded-2xl shadow-sm border border-slate-100 group">
-                        <div className="w-12 h-12 flex items-center justify-center transition-colors">
-                            {client.icon}
+                    <div key={i} className="inline-flex items-center gap-4 px-12 py-8 bg-white mx-4 rounded-3xl shadow-sm border border-slate-100 group hover:bg-[#0000ff] hover:shadow-2xl hover:shadow-blue-500/30 transition-all duration-300 cursor-pointer">
+                        <div className="w-14 h-14 flex items-center justify-center transition-all duration-300 group-hover:scale-125 group-hover:text-white text-[#0000ff]">
+                            {React.cloneElement(client.icon, { size: 40 })}
                         </div>
-                        <span className="font-black text-slate-700 uppercase tracking-tighter text-sm whitespace-nowrap">
+                        <span className="font-black text-slate-700 uppercase tracking-tighter text-sm group-hover:text-white transition-colors duration-300">
                             {client.name}
                         </span>
                     </div>
                 ))}
           </div>
-      </div>
+      </section>
 
       {/* Achievements (Progress Section) */}
       <section className="py-24 bg-white">
@@ -363,7 +381,7 @@ export default function App() {
           <RevealSection className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-16 items-center">
               <div className="lg:w-1/2">
                   <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4">Keunggulan Strategis</h3>
-                  <h2 className="text-4xl md:text-6xl font-black text-white mb-8">Standar Tinggi, Hasil Presisi.</h2>
+                  <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight">Standar Tinggi, Hasil Presisi.</h2>
                   <div className="space-y-6">
                       {siteData.benefits.map((b, i) => (
                           <div key={i} className="flex gap-6 p-6 bg-white/5 rounded-3xl border border-white/10 hover:border-[#0000ff]/30 transition-all group">
@@ -378,12 +396,12 @@ export default function App() {
               </div>
               <div className="lg:w-1/2 grid grid-cols-2 gap-4">
                   <div className="space-y-4 translate-y-8">
-                    <img src="/benefit-1.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-square object-cover" alt="Work 1" />
-                    <img src="/benefit-2.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-[4/5] object-cover" alt="Work 2" />
+                    <img src="/benefit-1.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-square object-cover" alt="Work 1" onError={(e) => e.target.src="https://images.unsplash.com/photo-1541913054-225c50406820?q=80&w=400"}/>
+                    <img src="/benefit-2.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-[4/5] object-cover" alt="Work 2" onError={(e) => e.target.src="https://images.unsplash.com/photo-1504307651254-35680f3366d4?q=80&w=400"}/>
                   </div>
                   <div className="space-y-4">
-                    <img src="/benefit-3.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-[4/5] object-cover" alt="Work 3" />
-                    <img src="/benefit-4.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-square object-cover" alt="Work 4" />
+                    <img src="/benefit-3.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-[4/5] object-cover" alt="Work 3" onError={(e) => e.target.src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=400"}/>
+                    <img src="/benefit-4.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-square object-cover" alt="Work 4" onError={(e) => e.target.src="https://images.unsplash.com/photo-1503387762-592be5a52680?q=80&w=400"}/>
                   </div>
               </div>
           </RevealSection>
@@ -414,17 +432,93 @@ export default function App() {
         </RevealSection>
       </section>
 
+      {/* MODERN PROJECTS GALLERY (MODERN BALANCED 6-GRID) */}
+      <section id="projects" className="py-32 px-6 bg-[#1a202c]">
+        <RevealSection className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.2em] text-[10px] mb-4">Portfolio Unggulan</h3>
+            <h2 className="text-4xl md:text-5xl font-black text-white mb-10">Hasil Kerja Kami</h2>
+            
+            {/* Filter Kategori */}
+            <div className="flex flex-wrap justify-center gap-3 mb-12">
+              {['All', 'Construction', 'Supplier', 'Infrastructure'].map((filter) => (
+                <button 
+                  key={filter} 
+                  onClick={() => { setProjectFilter(filter); setShowAllProjects(false); }} 
+                  className={`px-8 py-3 rounded-full font-black text-[10px] uppercase tracking-widest transition-all border-2 ${projectFilter === filter ? 'bg-[#0000ff] border-[#0000ff] text-white shadow-[0_0_20px_rgba(0,0,255,0.4)]' : 'bg-transparent border-white/10 text-gray-400 hover:border-white/30'}`}
+                >
+                  {filter}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* BALANCED 3x2 Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {displayedProjects.map((p, i) => (
+              <div 
+                key={i} 
+                className="group relative rounded-[2.5rem] overflow-hidden aspect-[1.1] shadow-2xl bg-[#2d3748] animate-fade-in-up border border-white/5"
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
+                <img 
+                  src={p.image} 
+                  alt={p.title} 
+                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
+                  onError={(e) => e.target.src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=400"} 
+                />
+                
+                {/* Overlay Modern */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a202c] via-[#1a202c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                
+                <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
+                  <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-[2rem]">
+                    <span className="text-[#0000ff] text-[9px] font-black uppercase tracking-widest mb-2 block">
+                      {p.category}
+                    </span>
+                    <h4 className="text-white font-bold text-lg leading-tight group-hover:text-white transition-colors">
+                      {p.title}
+                    </h4>
+                    <div className="mt-4 flex items-center gap-2 text-[10px] font-bold text-white/50 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity delay-100">
+                      Lihat Detail <ChevronRight size={12} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Tombol Show More (Jika lebih dari 6) */}
+          {filteredProjects.length > 6 && (
+            <div className="mt-20 flex justify-center">
+              <button 
+                onClick={() => setShowAllProjects(!showAllProjects)}
+                className="group relative inline-flex items-center gap-4 bg-white text-slate-900 px-14 py-6 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#0000ff] hover:text-white hover:shadow-[0_20px_50px_rgba(0,0,255,0.3)] transition-all active:scale-95 overflow-hidden"
+              >
+                <span className="relative z-10 flex items-center gap-3">
+                  {showAllProjects ? (
+                    <>Tampilkan Lebih Sedikit <Minus size={20} className="group-hover:rotate-180 transition-transform duration-500" /></>
+                  ) : (
+                    <>Lihat Seluruh Proyek <Plus size={20} className="group-hover:rotate-180 transition-transform duration-500" /></>
+                  )}
+                </span>
+              </button>
+            </div>
+          )}
+        </RevealSection>
+      </section>
+
       {/* Testimonials */}
       <section id="testimonials" className="py-32 bg-white px-6">
-          <RevealSection className="max-w-7xl mx-auto">
-              <div className="text-center mb-20">
+          <RevealSection className="max-w-7xl mx-auto text-center">
+              <div className="mb-20">
                   <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4">Suara Mitra</h3>
                   <h2 className="text-5xl font-black">Testimoni Klien</h2>
                   <div className="w-24 h-2 bg-[#0000ff] mx-auto mt-6 rounded-full"></div>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
                   {siteData.testimonials.map((t, i) => (
-                      <div key={i} className="bg-slate-50 p-10 rounded-[3rem] relative border border-slate-100 hover:border-[#0000ff]/30 transition-all group h-full">
+                      <div key={i} className="bg-slate-50 p-10 rounded-[3rem] relative border border-slate-100 hover:border-[#0000ff]/30 transition-all group h-full text-left">
                           <div className="absolute -top-6 left-12 w-12 h-12 bg-[#0000ff] rounded-full flex items-center justify-center text-white text-2xl font-black shadow-lg">"</div>
                           <p className="text-slate-600 italic text-lg mb-8 leading-relaxed">"{t.content}"</p>
                           <div className="flex items-center gap-4 mt-auto">
@@ -485,38 +579,12 @@ export default function App() {
                 <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl shadow-sm hover:bg-blue-50 transition-colors"><CheckCircle2 className="text-[#0000ff]" /> Keberlanjutan</div>
                 <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl shadow-sm hover:bg-blue-50 transition-colors"><CheckCircle2 className="text-[#0000ff]" /> Keandalan</div>
               </div>
-              <div className="pt-8">
+              <div className="pt-8 text-center sm:text-left">
                   <a href={siteData.comproUrl} target="_blank" className="inline-flex items-center gap-4 bg-[#1a202c] text-white px-10 py-5 rounded-[2rem] font-black hover:bg-slate-800 transition-all shadow-xl hover:-translate-y-1">
                       <FileDown size={24} /> Unduh Company Profile PDF
                   </a>
               </div>
             </div>
-        </RevealSection>
-      </section>
-
-      {/* Projects Gallery */}
-      <section id="projects" className="py-32 px-6 bg-[#1a202c]">
-        <RevealSection className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.2em] text-xs mb-4">Portfolio</h3>
-            <h2 className="text-4xl md:text-5xl font-black text-white mb-10">Hasil Kerja Kami</h2>
-            <div className="flex flex-wrap justify-center gap-4">
-              {['All', 'Construction', 'Supplier', 'Infrastructure'].map((filter) => (
-                <button key={filter} onClick={() => setProjectFilter(filter)} className={`px-8 py-3 rounded-2xl font-black text-xs uppercase tracking-widest transition-all border-2 ${projectFilter === filter ? 'bg-[#0000ff] border-[#0000ff] text-white shadow-xl shadow-blue-600/20' : 'bg-transparent border-white/10 text-gray-400 hover:border-white/30'}`}>{filter}</button>
-              ))}
-            </div>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((p, i) => (
-              <div key={i} className="group relative rounded-[2.5rem] overflow-hidden aspect-[4/5] shadow-2xl bg-[#2d3748]">
-                <img src={p.image} alt={p.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onError={(e) => e.target.src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=400"} />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#1a202c] via-[#1a202c]/20 to-transparent flex flex-col justify-end p-8">
-                  <span className="text-[#0000ff] text-[10px] font-black uppercase tracking-[0.3em] mb-3">{p.category}</span>
-                  <h4 className="text-white font-bold text-2xl leading-tight mb-2 group-hover:text-[#0000ff] transition-colors">{p.title}</h4>
-                </div>
-              </div>
-            ))}
-          </div>
         </RevealSection>
       </section>
 
@@ -555,7 +623,6 @@ export default function App() {
                 <div className="relative z-10">
                     <h2 className="text-5xl font-black mb-12 leading-tight">Mulai Proyek <br/>Bersama Kami</h2>
                     <div className="space-y-10">
-                        {/* WhatsApp Link Klik */}
                         <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex gap-6 items-center group cursor-pointer hover:bg-white/10 p-4 rounded-3xl transition-all">
                           <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl group-hover:bg-white group-hover:text-[#0000ff] transition-all"><Phone size={32}/></div>
                           <div><p className="text-xs opacity-60 uppercase tracking-widest font-black mb-1">WhatsApp</p><p className="text-2xl font-bold">{siteData.contact.phone}</p></div>
@@ -578,14 +645,14 @@ export default function App() {
                     <button disabled={submitStatus === 'loading'} type="submit" className="w-full bg-[#0000ff] text-white font-black py-6 rounded-2xl hover:bg-blue-700 transition-all flex items-center justify-center gap-4 shadow-xl text-xl active:scale-95">
                       {submitStatus === 'loading' ? <Loader2 className="animate-spin" /> : <><Send size={24} /> Kirim Pesan</>}
                     </button>
-                    {submitStatus === 'success' && <p className="text-green-600 font-bold text-center animate-bounce mt-4">✓ Pesan terhasil dikirim! Kami akan segera menghubungi Anda.</p>}
-                    {submitStatus === 'error' && <p className="text-red-600 font-bold text-center mt-4">Gagal mengirim pesan. Silakan coba lagi nanti.</p>}
+                    {submitStatus === 'success' && <p className="text-green-600 font-bold text-center animate-bounce mt-4">✓ Pesan berhasil dikirim!</p>}
+                    {submitStatus === 'error' && <p className="text-red-600 font-bold text-center mt-4">Gagal mengirim pesan.</p>}
                 </form>
             </div>
         </RevealSection>
       </section>
 
-      {/* Footer Lengkap */}
+      {/* Footer */}
       <footer className="bg-[#0b0f19] text-gray-400 py-24 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 border-t border-white/5 pt-16">
           <div className="lg:col-span-2">
@@ -594,7 +661,7 @@ export default function App() {
                   <img src={logoPath} alt="Logo" className="h-full w-full object-contain" />
                 </div>
                 <div className="flex flex-col text-white">
-                  <span className="text-xxl font-black uppercase tracking-tighter leading-none">PT CHAERUNISA CITRA</span>
+                  <span className="text-xxl font-black uppercase tracking-tighter leading-none text-white">PT CHAERUNISA CITRA</span>
                   <span className="text-xxl font-black text-[#0000ff] leading-none uppercase tracking-tighter">MANDIRI</span>
                 </div>
               </div>
@@ -606,7 +673,7 @@ export default function App() {
           </div>
           <div>
             <h4 className="text-white font-black uppercase tracking-widest mb-8 text-xs text-[#0000ff]">Lokasi Operasional</h4>
-            <div className="space-y-6 text-xs leading-relaxed">
+            <div className="space-y-6 text-xs leading-relaxed text-white/70">
               <div className="flex gap-3">
                   <MapPin className="text-[#0000ff] shrink-0" size={16} />
                   <p><strong>Palembang (HQ):</strong><br/>{siteData.contact.address}</p>
@@ -619,7 +686,7 @@ export default function App() {
           </div>
           <div>
             <h4 className="text-white font-black uppercase tracking-widest mb-8 text-xs text-[#0000ff]">Akses Cepat</h4>
-            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest">
+            <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-white">
                 <li><a href="#home" className="hover:text-[#0000ff] transition-colors flex items-center gap-2"><ChevronRight size={12}/> Beranda</a></li>
                 <li><a href="#projects" className="hover:text-[#0000ff] transition-colors flex items-center gap-2"><ChevronRight size={12}/> Portfolio</a></li>
                 <li><a href={siteData.comproUrl} target="_blank" className="hover:text-[#0000ff] transition-colors flex items-center gap-2 text-[#0000ff] underline underline-offset-4 font-black">Download Compro PDF</a></li>
@@ -643,6 +710,7 @@ export default function App() {
         .animate-fade-in-up { animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         .animate-float { animation: float 6s ease-in-out infinite alternate; }
         .animate-infinite-scroll { animation: infiniteScroll 40s linear infinite; }
+        .animate-infinite-scroll:hover { animation-play-state: paused; }
         .shadow-3xl { box-shadow: 0 50px 100px -20px rgba(0,0,0,0.6); }
         html { scroll-behavior: smooth; }
       `}</style>
