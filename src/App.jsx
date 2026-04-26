@@ -158,7 +158,7 @@ export default function App() {
     contact: {
       phone: "0811258995",
       email: "chaerunisa.citra.mandiri@gmail.com",
-      address: "Jl. Perindustrian II Gang Manggis No. 138 Palembang",
+      address: "Komplek citra grand city blok B8 No. 28",
       branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
     }
   });
