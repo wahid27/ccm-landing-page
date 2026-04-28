@@ -155,12 +155,12 @@ export default function App() {
       { q: "Jenis armada transportasi apa yang tersedia?", a: "Dump Truck Colt Diesel, Tronton Trailer, hingga Lowbed Trailer milik sendiri." },
       { q: "Apakah CCM tersertifikasi?", a: "Ya, kami telah tersertifikasi SNI ISO 9001:2015 untuk Sistem Manajemen Mutu." }
     ],
-    contact: {
-      phone: "0811258995",
-      email: "chaerunisa.citra.mandiri@gmail.com",
-      address: "Komplek Citra Grand City Blok B8 No. 26",
-      branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
-    }
+  contact: {
+  phone: "0811258995",
+  email: "chaerunisa.citra.mandiri@gmail.com",
+  address: "PT CHAERUNISA CITRA MANDIRI\nKOMPLEK CITRA GRAND CITY - ORCHARD WALK NORTH, B.08 NO. 26\nALANG LEBAR PALEMBANG 30154\nSUMATRA SELATAN",
+  branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
+  }
   });
 
   // Link WhatsApp Otomatis
