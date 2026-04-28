@@ -158,7 +158,7 @@ export default function App() {
     contact: {
       phone: "0811258995",
       email: "chaerunisa.citra.mandiri@gmail.com",
-      address: "Komplek citra grand city blok B8 No. 28",
+      address: "Komplek Citra Grand City Blok B8 No. 26",
       branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
     }
   });
