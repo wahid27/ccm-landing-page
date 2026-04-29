@@ -158,7 +158,7 @@ export default function App() {
   contact: {
   phone: "0811258995",
   email: "chaerunisa.citra.mandiri@gmail.com",
-  address: "PT CHAERUNISA CITRA MANDIRI\nKOMPLEK CITRA GRAND CITY - ORCHARD WALK NORTH, B.08 NO. 26\nALANG LEBAR PALEMBANG 30154\nSUMATRA SELATAN",
+  address: "PT CHAERUNISA CITRA MANDIRI\nKOMPLEK CITRA GRAND CITY - ORCHARD WALK NORTH, B.08 NO. 26\nALANG - ALANG LEBAR PALEMBANG - Kode Pos: 30154\nProvinsi Sumatra Selatan",
   branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
   }
   });
