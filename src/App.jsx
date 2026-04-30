@@ -29,9 +29,23 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const appId = "ccm-landingpage";
 
+// URL Google Apps Script (Wajib di-deploy sebagai "Anyone")
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5gUyeidvrwC5XkNk-ENgWo2w8WQyK9XcNG8KnMxu84fUtqLhfl7tLaFCD3mePwrKACA/exec";
 
-// --- CUSTOM SVG ICONS ---
+// --- CUSTOM SVG ICONS (Logo WhatsApp Terbaru & Akurat) ---
+const WhatsAppIcon = ({ size = 24, className = "" }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="currentColor" 
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.353-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.13.57-.074 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.825 0 00-3.48-8.413z" />
+  </svg>
+);
+
 const InstagramIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
 );
@@ -75,6 +89,7 @@ export default function App() {
   const [isSaving, setIsSaving] = useState(false);
   const [showAllProjects, setShowAllProjects] = useState(false);
   
+  // Path Gambar Publik
   const logoPath = "/logo-ccm.png";
   const iconPath = "/logo-ccm.png";
   const aboutPath = "/about-ccm.jpg";
@@ -155,15 +170,15 @@ export default function App() {
       { q: "Jenis armada transportasi apa yang tersedia?", a: "Dump Truck Colt Diesel, Tronton Trailer, hingga Lowbed Trailer milik sendiri." },
       { q: "Apakah CCM tersertifikasi?", a: "Ya, kami telah tersertifikasi SNI ISO 9001:2015 untuk Sistem Manajemen Mutu." }
     ],
-  contact: {
-  phone: "0811258995",
-  email: "chaerunisa.citra.mandiri@gmail.com",
-  address: "PT CHAERUNISA CITRA MANDIRI\nKOMPLEK CITRA GRAND CITY - ORCHARD WALK NORTH, B.08 NO. 26\nALANG - ALANG LEBAR PALEMBANG - Kode Pos: 30154\nProvinsi Sumatra Selatan",
-  branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
-  }
+    contact: {
+      phone: "0811258995",
+      email: "chaerunisa.citra.mandiri@gmail.com",
+      address: "PT CHAERUNISA CITRA MANDIRI\nKOMPLEK CITRA GRAND CITY - ORCHARD WALK NORTH, B.08 NO. 26\nALANG - ALANG LEBAR PALEMBANG - Kode Pos: 30154\nProvinsi Sumatra Selatan",
+      branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim"
+    }
   });
 
-  // Link WhatsApp Otomatis
+  // Logika URL WhatsApp (Otomatis ganti 0 ke 62)
   const waLink = `https://wa.me/62${siteData.contact.phone.substring(1)}`;
   const emailLink = `mailto:${siteData.contact.email}`;
 
@@ -172,6 +187,13 @@ export default function App() {
 
   useEffect(() => {
     document.title = "PT Chaerunisa Citra Mandiri | General Contractor & Supplier";
+    
+    // Trigger Admin Mode via URL (?admin=true)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('admin') === 'true') {
+      setIsAdminMode(true);
+    }
+
     const timer = setTimeout(() => setIsLoadingContent(false), 2000);
     const initAuth = async () => {
       try { await signInAnonymously(auth); } catch (err) { console.error("Auth Error:", err); }
@@ -203,6 +225,7 @@ export default function App() {
     try {
       await setDoc(doc(db, 'artifacts', appId, 'public', 'data', 'config', 'main'), siteData);
       setIsAdminMode(false);
+      window.history.replaceState({}, '', window.location.pathname);
     } catch (e) { console.error(e); } finally { setIsSaving(false); }
   };
 
@@ -245,7 +268,6 @@ export default function App() {
     </div>
   );
 
-  // LOGIKA FILTER DAN LIMIT GALERI (Update ke 6)
   const filteredProjects = projectFilter === 'All' 
     ? siteData.projects 
     : siteData.projects.filter(p => p.category === projectFilter);
@@ -266,16 +288,16 @@ export default function App() {
         </div>
       )}
 
-      {/* Floating WA Button */}
-      <a href={waLink} target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-[60] bg-green-500 text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all animate-bounce flex items-center justify-center border-4 border-white group">
-        <MessageCircle size={32} />
+      {/* Floating WA Button (IKON BARU & AKURAT) */}
+      <a href={waLink} target="_blank" rel="noopener noreferrer" className="fixed bottom-6 right-6 z-[60] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-all animate-bounce flex items-center justify-center border-4 border-white group shadow-green-500/20">
+        <WhatsAppIcon size={32} />
         <span className="absolute right-full mr-4 bg-slate-900 text-white text-xs font-bold px-4 py-2 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none shadow-xl border border-white/10">
           Chat WhatsApp Admin
           <span className="absolute top-1/2 -translate-y-1/2 left-full w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[8px] border-l-slate-900"></span>
         </span>
       </a>
 
-      {/* Navigasi */}
+      {/* Navigation */}
       <nav className={`fixed top-0 w-full z-50 px-6 py-3 transition-all duration-500 ${scrolled ? 'bg-[#1a202c]/95 shadow-2xl backdrop-blur-md' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3 group cursor-pointer">
@@ -299,8 +321,8 @@ export default function App() {
       {/* Sidebar Mobile Menu */}
       <div className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-all duration-300 ${isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible"}`} onClick={() => setIsMenuOpen(false)}></div>
       <div className={`fixed top-0 right-0 h-full w-[75%] max-w-[300px] bg-[#0f172a] z-50 transform transition-all duration-300 ease-in-out ${isMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
-        <div className="flex items-center justify-between p-5 border-b border-white/10">
-          <span className="text-white font-bold tracking-widest text-xs uppercase text-white">MENU</span>
+        <div className="flex items-center justify-between p-5 border-b border-white/10 text-white">
+          <span className="font-bold tracking-widest text-xs uppercase text-white">MENU</span>
           <button onClick={() => setIsMenuOpen(false)}><X size={26} className="text-white" /></button>
         </div>
         <div className="flex flex-col p-5 space-y-4">
@@ -320,29 +342,29 @@ export default function App() {
           </div>
         ))}
         <div className="relative z-10 max-w-7xl mx-auto px-6 w-full text-white">
-          <div className="max-w-4xl animate-fade-in-up">
+          <RevealSection className="max-w-4xl">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600/20 border border-blue-500/30 rounded-full mb-8 text-[#0000ff] font-black text-[10px] uppercase tracking-[0.2em]">
                 <Zap size={14} /> {siteData.hero[currentSlide]?.tag}
             </div>
             <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] drop-shadow-2xl">
                 {siteData.hero[currentSlide]?.title}
             </h1>
-            <p className="text-gray-300 text-xl max-w-2xl mb-12 leading-relaxed font-medium opacity-90">{siteData.hero[currentSlide]?.desc}</p>
+            <p className="text-gray-300 text-xl max-w-2xl mb-12 leading-relaxed opacity-90">{siteData.hero[currentSlide]?.desc}</p>
             <div className="flex flex-wrap gap-4">
                 <a href="#contact" className="bg-[#0000ff] text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-700 transition-all shadow-2xl active:scale-95 flex items-center gap-3">Mulai Sekarang <ChevronRight /></a>
                 <a href={siteData.comproUrl} target="_blank" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-black text-xl hover:bg-white/20 transition-all flex items-center gap-3">
                     <FileDown size={24} /> Download PDF
                 </a>
             </div>
-          </div>
+          </RevealSection>
         </div>
       </section>
 
       {/* Infinite Client Slider */}
       <section className="bg-slate-50 py-24 border-y border-slate-200 overflow-hidden relative">
-          <RevealSection className="max-w-7xl mx-auto px-6 mb-16 text-center">
+          <RevealSection className="max-w-7xl mx-auto px-6 mb-16 text-center text-slate-900">
             <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Mitra Strategis & Klien</h3>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">Dipercaya Oleh Berbagai Perusahaan Besar</h2>
+            <h2 className="text-3xl md:text-4xl font-black mb-6">Dipercaya Oleh Berbagai Perusahaan Besar</h2>
             <div className="w-16 h-1.5 bg-[#0000ff] mx-auto rounded-full"></div>
           </RevealSection>
           
@@ -378,16 +400,16 @@ export default function App() {
       {/* Why Choose Us (Benefits) - 4 GAMBAR FULL */}
       <section className="py-32 bg-[#1a202c] relative overflow-hidden">
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[100px]"></div>
-          <RevealSection className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-16 items-center">
+          <RevealSection className="max-w-7xl mx-auto px-6 flex flex-col lg:flex-row gap-16 items-center text-white">
               <div className="lg:w-1/2">
                   <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4">Keunggulan Strategis</h3>
-                  <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight">Standar Tinggi, Hasil Presisi.</h2>
+                  <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">Standar Tinggi, Hasil Presisi.</h2>
                   <div className="space-y-6">
                       {siteData.benefits.map((b, i) => (
                           <div key={i} className="flex gap-6 p-6 bg-white/5 rounded-3xl border border-white/10 hover:border-[#0000ff]/30 transition-all group">
                               <div className="w-12 h-12 rounded-2xl bg-[#0000ff]/20 flex items-center justify-center text-[#0000ff] shrink-0 group-hover:bg-[#0000ff] group-hover:text-white transition-all"><TrendingUp size={24}/></div>
                               <div>
-                                  <h4 className="text-white font-bold text-xl mb-2">{b.title}</h4>
+                                  <h4 className="font-bold text-xl mb-2">{b.title}</h4>
                                   <p className="text-gray-400 text-sm leading-relaxed">{b.desc}</p>
                               </div>
                           </div>
@@ -408,11 +430,11 @@ export default function App() {
       </section>
 
       {/* Services Grid */}
-      <section id="services" className="bg-slate-50 py-32 px-6">
+      <section id="services" className="bg-slate-50 py-32 px-6 text-slate-900">
         <RevealSection className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4">Solusi Terintegrasi</h3>
-            <h2 className="text-5xl font-black text-slate-900">Layanan Utama</h2>
+            <h2 className="text-5xl font-black">Layanan Utama</h2>
             <div className="w-24 h-2 bg-[#0000ff] mx-auto mt-6 rounded-full"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -421,7 +443,7 @@ export default function App() {
                 <div className="text-[#0000ff] group-hover:text-white mb-8 transition-colors p-4 bg-slate-50 w-fit rounded-2xl group-hover:bg-white/10">
                   {getIcon(s.icon)}
                 </div>
-                <h4 className="text-2xl font-black text-slate-900 group-hover:text-white mb-4 transition-colors">{s.title}</h4>
+                <h4 className="text-2xl font-black group-hover:text-white mb-4 transition-colors">{s.title}</h4>
                 <p className="text-slate-500 group-hover:text-blue-50 text-sm leading-relaxed mb-8 flex-grow transition-colors">{s.desc}</p>
                 <div className="flex items-center gap-2 text-xs font-black text-[#0000ff] group-hover:text-white uppercase tracking-widest mt-auto cursor-pointer">
                     Selengkapnya <ChevronRight size={14} />
@@ -432,11 +454,11 @@ export default function App() {
         </RevealSection>
       </section>
 
-      {/* MODERN PROJECTS GALLERY (MODERN BALANCED 6-GRID) */}
+      {/* MODERN PROJECTS GALLERY (BALANCED 3x2 Grid) */}
       <section id="projects" className="py-32 px-6 bg-[#1a202c]">
         <RevealSection className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.2em] text-[10px] mb-4">Portfolio Unggulan</h3>
+            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.2em] text-[10px] mb-4 text-[#0000ff]">Portfolio Unggulan</h3>
             <h2 className="text-4xl md:text-5xl font-black text-white mb-10">Hasil Kerja Kami</h2>
             
             {/* Filter Kategori */}
@@ -453,8 +475,8 @@ export default function App() {
             </div>
           </div>
 
-          {/* BALANCED 3x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Grid Modern 3 Kolom */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-slate-900">
             {displayedProjects.map((p, i) => (
               <div 
                 key={i} 
@@ -468,12 +490,11 @@ export default function App() {
                   onError={(e) => e.target.src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=400"} 
                 />
                 
-                {/* Overlay Modern */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a202c] via-[#1a202c]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
                   <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-[2rem]">
-                    <span className="text-[#0000ff] text-[9px] font-black uppercase tracking-widest mb-2 block">
+                    <span className="text-[#0000ff] text-[9px] font-black uppercase tracking-widest mb-2 block text-[#0000ff]">
                       {p.category}
                     </span>
                     <h4 className="text-white font-bold text-lg leading-tight group-hover:text-white transition-colors">
@@ -488,7 +509,7 @@ export default function App() {
             ))}
           </div>
 
-          {/* Tombol Show More (Jika lebih dari 6) */}
+          {/* Tombol Show More */}
           {filteredProjects.length > 6 && (
             <div className="mt-20 flex justify-center">
               <button 
@@ -510,7 +531,7 @@ export default function App() {
 
       {/* Testimonials */}
       <section id="testimonials" className="py-32 bg-white px-6">
-          <RevealSection className="max-w-7xl mx-auto text-center">
+          <RevealSection className="max-w-7xl mx-auto text-center text-slate-900">
               <div className="mb-20">
                   <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4">Suara Mitra</h3>
                   <h2 className="text-5xl font-black">Testimoni Klien</h2>
@@ -524,7 +545,7 @@ export default function App() {
                           <div className="flex items-center gap-4 mt-auto">
                               <img src={t.image} className="w-14 h-14 rounded-full object-cover border-2 border-[#0000ff]" alt={t.name} onError={(e) => e.target.src="https://i.pravatar.cc/150?u="+i}/>
                               <div>
-                                  <h5 className="font-bold text-slate-900">{t.name}</h5>
+                                  <h5 className="font-bold">{t.name}</h5>
                                   <p className="text-xs text-slate-400 font-bold uppercase">{t.role}</p>
                               </div>
                           </div>
@@ -535,20 +556,20 @@ export default function App() {
       </section>
 
       {/* Direksi (Founders) Section */}
-      <section className="py-32 px-6 bg-slate-50 overflow-hidden">
+      <section className="py-32 px-6 bg-slate-50 overflow-hidden text-slate-900">
         <RevealSection className="max-w-7xl mx-auto text-center">
           <div className="mb-20">
             <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4">Leadership</h3>
-            <h2 className="text-5xl font-black text-slate-900">Para Pendiri & Direksi</h2>
+            <h2 className="text-5xl font-black">Para Pendiri & Direksi</h2>
             <div className="w-24 h-2 bg-[#0000ff] mx-auto mt-6 rounded-full"></div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {siteData.founders.map((f, i) => (
-              <div key={i} className="group relative rounded-[2.5rem] overflow-hidden shadow-xl aspect-[3/4] bg-white">
+              <div key={i} className="group relative rounded-[2.5rem] overflow-hidden shadow-xl aspect-[3/4] bg-white text-white">
                 <img src={f.avatar} alt={f.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110" onError={(e) => e.target.src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400"} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-8 text-left translate-y-4 group-hover:translate-y-0 transition-transform">
                   <p className="text-[#0000ff] text-[10px] font-black uppercase tracking-widest mb-1">{f.role}</p>
-                  <h4 className="text-white font-black text-lg leading-tight">{f.name}</h4>
+                  <h4 className="font-black text-lg leading-tight">{f.name}</h4>
                   <div className="h-1 w-0 bg-[#0000ff] mt-4 group-hover:w-full transition-all duration-700"></div>
                 </div>
               </div>
@@ -558,7 +579,7 @@ export default function App() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="py-32 px-6 bg-white relative overflow-hidden">
+      <section id="about" className="py-32 px-6 bg-white relative overflow-hidden text-slate-900">
         <RevealSection className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
             <div className="lg:w-1/2 relative group">
               <div className="relative rounded-[3rem] overflow-hidden shadow-3xl aspect-[4/3] border-8 border-white bg-slate-200">
@@ -589,11 +610,11 @@ export default function App() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-32 px-6 bg-slate-50 border-t border-slate-200">
+      <section id="faq" className="py-32 px-6 bg-slate-50 border-t border-slate-200 text-slate-900">
         <RevealSection className="max-w-3xl mx-auto space-y-12">
           <div className="text-center">
             <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4">Tanya Jawab</h3>
-            <h2 className="text-4xl font-black text-slate-900">Pertanyaan Umum</h2>
+            <h2 className="text-4xl font-black">Pertanyaan Umum</h2>
           </div>
           <div className="space-y-4">
             {siteData.faqs.map((faq, i) => (
@@ -623,12 +644,13 @@ export default function App() {
                 <div className="relative z-10">
                     <h2 className="text-5xl font-black mb-12 leading-tight">Mulai Proyek <br/>Bersama Kami</h2>
                     <div className="space-y-10">
+                        {/* WhatsApp (IKON BARU) */}
                         <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex gap-6 items-center group cursor-pointer hover:bg-white/10 p-4 rounded-3xl transition-all">
-                          <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl group-hover:bg-white group-hover:text-[#0000ff] transition-all"><Phone size={32}/></div>
+                          <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl group-hover:bg-[#25D366] group-hover:text-white transition-all"><WhatsAppIcon size={32}/></div>
                           <div><p className="text-xs opacity-60 uppercase tracking-widest font-black mb-1">WhatsApp</p><p className="text-2xl font-bold">{siteData.contact.phone}</p></div>
                         </a>
                         <a href={emailLink} className="flex gap-6 items-center group cursor-pointer hover:bg-white/10 p-4 rounded-3xl transition-all">
-                          <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl group-hover:bg-white group-hover:text-[#0000ff] transition-all"><Mail size={32}/></div>
+                          <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl group-hover:bg-[#0000ff] group-hover:text-white transition-all"><Mail size={32}/></div>
                           <div><p className="text-xs opacity-60 uppercase tracking-widest font-black mb-1">Email</p><p className="text-base font-bold">{siteData.contact.email}</p></div>
                         </a>
                     </div>
@@ -636,32 +658,32 @@ export default function App() {
             </div>
             <div className="lg:w-1/2 p-12 lg:p-24">
                 <form className="space-y-6" onSubmit={handleFormSubmit}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-slate-900">
                         <input required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} type="text" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold focus:border-[#0000ff] transition-all text-sm" placeholder="Nama Lengkap" />
                         <input required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} type="email" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold focus:border-[#0000ff] transition-all text-sm" placeholder="Email Perusahaan" />
                     </div>
-                    <input required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} type="tel" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold focus:border-[#0000ff] transition-all text-sm" placeholder="Nomor WhatsApp" />
-                    <textarea required value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 h-32 outline-none font-bold resize-none focus:border-[#0000ff] transition-all text-sm" placeholder="Tuliskan kebutuhan proyek Anda..."></textarea>
+                    <input required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} type="tel" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold focus:border-[#0000ff] transition-all text-sm text-slate-900" placeholder="Nomor WhatsApp" />
+                    <textarea required value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 h-32 outline-none font-bold resize-none focus:border-[#0000ff] transition-all text-sm text-slate-900" placeholder="Tuliskan kebutuhan proyek Anda..."></textarea>
                     <button disabled={submitStatus === 'loading'} type="submit" className="w-full bg-[#0000ff] text-white font-black py-6 rounded-2xl hover:bg-blue-700 transition-all flex items-center justify-center gap-4 shadow-xl text-xl active:scale-95">
                       {submitStatus === 'loading' ? <Loader2 className="animate-spin" /> : <><Send size={24} /> Kirim Pesan</>}
                     </button>
                     {submitStatus === 'success' && <p className="text-green-600 font-bold text-center animate-bounce mt-4">✓ Pesan berhasil dikirim!</p>}
-                    {submitStatus === 'error' && <p className="text-red-600 font-bold text-center mt-4">Gagal mengirim pesan.</p>}
+                    {submitStatus === 'error' && <p className="text-red-600 font-bold text-center mt-4 text-red-600">Gagal mengirim pesan.</p>}
                 </form>
             </div>
         </RevealSection>
       </section>
 
-      {/* Footer */}
+      {/* Footer Lengkap */}
       <footer className="bg-[#0b0f19] text-gray-400 py-24 px-6">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 border-t border-white/5 pt-16">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 text-white">
               <div className="flex items-center gap-3 mb-8 group cursor-pointer">
                 <div className="h-16 w-16 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
                   <img src={logoPath} alt="Logo" className="h-full w-full object-contain" />
                 </div>
-                <div className="flex flex-col text-white">
-                  <span className="text-xxl font-black uppercase tracking-tighter leading-none text-white">PT CHAERUNISA CITRA</span>
+                <div className="flex flex-col">
+                  <span className="text-xxl font-black uppercase tracking-tighter leading-none">PT CHAERUNISA CITRA</span>
                   <span className="text-xxl font-black text-[#0000ff] leading-none uppercase tracking-tighter">MANDIRI</span>
                 </div>
               </div>
@@ -694,7 +716,7 @@ export default function App() {
             </ul>
           </div>
         </div>
-        <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 mt-16 text-[10px] font-black uppercase tracking-[0.5em] opacity-30">
+        <div className="max-w-7xl mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-6 mt-16 text-[10px] font-black uppercase tracking-[0.5em] opacity-30 text-center">
           <p>© 2026 PT CHAERUNISA CITRA MANDIRI. ALL RIGHTS RESERVED.</p>
           <div className="flex gap-6">
               <a href="#" className="hover:opacity-100 transition-opacity">Privacy Policy</a>
