@@ -208,6 +208,7 @@ export default function App() {
       { title: "Gudang Logistik Muaraenim", category: "Construction", image: "/proyek-5.png" },
       { title: "Infrastruktur Jalan Tol Sumsel", category: "Infrastructure", image: "/proyek-6.png" },
       { title: "Supply Besi Beton Proyek PLTU", category: "Supplier", image: "proyek-7.png" },
+      { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-8.png" },
       { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-8.png" }
     ],
     faqs: [
