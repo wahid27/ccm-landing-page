@@ -195,8 +195,8 @@ export default function App() {
       desc: "Didirikan pada tahun 2016, CCM adalah perusahaan dinamis yang berfokus pada kepuasan pelanggan, pertumbuhan berkelanjutan, dan tanggung jawab sosial." 
     },
     founders: [
-      { name: "Angga Hartata Sadiputra", role: "Komisaris", avatar: "/direksi-1.png" },
-      { name: "Liska Ayulia, Amd", role: "Direktur Utama", avatar: "/direksi-2.png" },
+      { name: "Angga Hartata Sadiputra", role: "Komisaris", avatar: "/direksi-2.png" },
+      { name: "Liska Ayulia, Amd, SP., M. Si", role: "Direktur Utama", avatar: "/direksi-1.png" },
       { name: "H. Iwa Gartiwa, SE", role: "Direktur Operasional", avatar: "/direksi-3.png" },
       { name: "Harlin Pirodi", role: "Manajer Projek", avatar: "/direksi-4.png" }
     ],
