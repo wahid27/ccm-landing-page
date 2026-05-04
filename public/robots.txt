@@ -1,4 +1,4 @@
-robots.txt untuk https://chaerunisa.co.id
+robots.txt untuk https://www.chaerunisa.co.id
 
 Membuka akses untuk semua mesin pencari (Google, Bing, Yahoo, dll)
 
@@ -12,4 +12,4 @@ Disallow: /admin
 
 Memberitahu lokasi peta situs kepada crawler
 
-Sitemap: https://chaerunisa.co.id/sitemap.xml
+Sitemap: https://www.chaerunisa.co.id/sitemap.xml
