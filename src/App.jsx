@@ -138,7 +138,7 @@ export default function App() {
     stats: [
       { label: "Tahun Berdiri", value: "2016", icon: <Award className="text-blue-500" /> },
       { label: "Klien Puas", value: "50+", icon: <Users className="text-green-500" /> },
-      { label: "Proyek Selesai", value: "100+", icon: <Target className="text-orange-500" /> },
+      { label: " Selesai", value: "100+", icon: <Target className="text-orange-500" /> },
       { label: "Sertifikasi ISO", value: "9001", icon: <ShieldCheck className="text-blue-600" /> }
     ],
     comproUrl: "https://drive.google.com/file/d/13JaISrgneIDiE0TZb9mRnWtlNUdXFDO3/view?usp=sharing",
@@ -204,11 +204,12 @@ export default function App() {
       { title: "Astra Daihatsu Motor Karawang", category: "Construction", image: "/proyek-1.jpg", detail: "Pembangunan fasilitas produksi otomotif dengan standar presisi tinggi." },
       { title: "Supply Batu Andesit PT Bukit Asam", category: "Supplier", image: "/proyek-2.jpg", detail: "Suplai material split berkualitas tinggi untuk kebutuhan operasional tambang." },
       { title: "Perumahan Mutiara Gemilang", category: "Construction", image: "/proyek-3.jpg", detail: "Pembangunan kawasan hunian modern yang mengutamakan kenyamanan." },
-      { title: "Pembangunan Jembatan Regional", category: "Infrastructure", image: "/proyek-4.png", detail: "Proyek infrastruktur sipil untuk memperlancar konektivitas wilayah." },
-      { title: "Gudang Logistik Muaraenim", category: "Construction", image: "/proyek-5.png", detail: "Pembangunan gudang distribusi dengan kapasitas muat besar." },
+      { title: "Pembangunan Jembatan Regional", category: "Infrastructure", image: "/proyek-5.png", detail: "Proyek infrastruktur sipil untuk memperlancar konektivitas wilayah." },
+      { title: "Gudang Logistik Muaraenim", category: "Construction", image: "/benefit-4.jpg", detail: "Pembangunan gudang distribusi dengan kapasitas muat besar." },
       { title: "Infrastruktur Jalan Tol Sumsel", category: "Infrastructure", image: "/proyek-6.png", detail: "Dukungan suplai dan alat berat untuk percepatan jalan tol nasional." },
       { title: "Supply Besi Beton Proyek PLTU", category: "Supplier", image: "/proyek-7.png", detail: "Suplai besi SNI untuk konstruksi fondasi pembangkit listrik." },
-      { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-8.png", detail: "Produksi wearpack standar K3 untuk pekerja lapangan tambang." }
+      { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-4.png", detail: "Produksi wearpack standar K3 untuk pekerja lapangan tambang." },
+      { title: "Suplay Material Proyek", category: "Supplier", image: "/proyek-9.png", detail: "bahan konstruksi berkualitas tinggi batu andesit pecah (split)." }
     ],
     faqs: [
       { q: "Sejak kapan PT CCM beroperasi?", a: "Didirikan pada 19 Juli 2016 di Bandung dan kini fokus melayani wilayah Sumatera Selatan dan sekitarnya." },
