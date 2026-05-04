@@ -1,0 +1,15 @@
+robots.txt untuk https://chaerunisa.co.id
+
+Membuka akses untuk semua mesin pencari (Google, Bing, Yahoo, dll)
+
+User-agent: *
+Allow: /
+
+Melindungi parameter admin agar tidak muncul di hasil pencarian publik
+
+Disallow: /?admin=true
+Disallow: /admin
+
+Memberitahu lokasi peta situs kepada crawler
+
+Sitemap: https://chaerunisa.co.id/sitemap.xml
