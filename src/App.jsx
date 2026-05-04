@@ -204,11 +204,11 @@ export default function App() {
       { title: "Astra Daihatsu Motor Karawang", category: "Construction", image: "/proyek-1.jpg" },
       { title: "Supply Batu Andesit PT Bukit Asam", category: "Supplier", image: "/proyek-2.jpg" },
       { title: "Perumahan Mutiara Gemilang", category: "Construction", image: "/proyek-3.jpg" },
-      { title: "Pembangunan Jembatan Regional", category: "Infrastructure", image: "/proyek-4.jpg" },
-      { title: "Gudang Logistik Muaraenim", category: "Construction", image: "/proyek-5.jpg" },
-      { title: "Infrastruktur Jalan Tol Sumsel", category: "Infrastructure", image: "/proyek-6.jpg" },
-      { title: "Supply Besi Beton Proyek PLTU", category: "Supplier", image: "/proyek-7.jpg" },
-      { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-1.jpg" }
+      { title: "Pembangunan Jembatan Regional", category: "Infrastructure", image: "/proyek-4.png" },
+      { title: "Gudang Logistik Muaraenim", category: "Construction", image: "/proyek-5.png" },
+      { title: "Infrastruktur Jalan Tol Sumsel", category: "Infrastructure", image: "/proyek-6.png" },
+      { title: "Supply Besi Beton Proyek PLTU", category: "Supplier", image: "proyek-7.png" },
+      { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-8.png" }
     ],
     faqs: [
       { q: "Sejak kapan PT CCM beroperasi?", a: "Didirikan pada 19 Juli 2016 di Bandung dan kini fokus melayani wilayah Sumatera Selatan dan sekitarnya." },
