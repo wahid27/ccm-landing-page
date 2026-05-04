@@ -5,7 +5,7 @@ import {
   Phone, Mail, MapPin, Menu, X, 
   CheckCircle2, MessageCircle, ChevronDown,
   Zap, Loader2, Send, Settings, Save, 
-  Briefcase, Factory, FileDown, Users, Target, TrendingUp, Plus, Minus, Navigation
+  Briefcase, Factory, FileDown, Users, Target, TrendingUp, Plus, Minus, Navigation, Maximize2
 } from 'lucide-react';
 
 // Firebase Imports
@@ -31,7 +31,7 @@ const appId = "ccm-landingpage";
 
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycby5gUyeidvrwC5XkNk-ENgWo2w8WQyK9XcNG8KnMxu84fUtqLhfl7tLaFCD3mePwrKACA/exec";
 
-// --- CUSTOM SVG ICONS ---
+// --- CUSTOM COMPONENTS ---
 
 const WhatsAppIcon = ({ size = 24, className = "" }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +47,6 @@ const LinkedinIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
 );
 
-// --- TESTIMONIAL CARD COMPONENT ---
 const TestimonialCard = ({ name, role, content, image }) => (
   <div className="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 relative group hover:border-[#0000ff]/30 transition-all duration-500 h-full">
     <div className="absolute -top-6 left-8 w-12 h-12 bg-[#0000ff] rounded-full flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-blue-500/20">"</div>
@@ -62,7 +61,7 @@ const TestimonialCard = ({ name, role, content, image }) => (
   </div>
 );
 
-// --- MAP DISPLAY COMPONENT ---
+// --- MAP DISPLAY COMPONENT (ANTI-FLICKER) ---
 const MapDisplay = React.memo(({ iframeUrl, address, googleMapsUrl, logoPath }) => {
   return (
     <div className="relative rounded-[3rem] md:rounded-[4rem] overflow-hidden shadow-3xl h-[580px] md:h-[650px] border-4 border-white/5 bg-[#0f172a] group">
@@ -125,6 +124,7 @@ export default function App() {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [showAllFaqs, setShowAllFaqs] = useState(false);
   const [activeServiceModal, setActiveServiceModal] = useState(null);
+  const [activeProjectModal, setActiveProjectModal] = useState(null);
   
   const logoPath = "/logo-ccm.png";
   const iconPath = "/logo-ccm.png";
@@ -187,7 +187,7 @@ export default function App() {
       { name: "Budi Santoso", role: "Project Manager, PT Bukit Asam", content: "Kerjasama dengan CCM sangat memuaskan. Pengiriman material selalu tepat waktu dan kualitasnya konsisten.", image: "/testi-1.jpg" },
       { name: "Siti Aminah", role: "Procurement Head, PT Waskita", content: "CCM adalah mitra yang handal. Responsif terhadap kebutuhan mendesak dan profesionalisme luar biasa.", image: "/testi-2.jpg" }, 
       { name: "H. Ahmad Fauzi", role: "Site Engineer, PT Adhi Karya", content: "Sangat terbantu dengan armada pengangkutan CCM yang selalu prima dan tepat waktu.", image: "/testi-3.jpg" },
-      { name: "Maya Saputri", role: "Purchasing, Circle K", content: "Seragam konveksi dari CCM hasilnya sangat rapi dan bahannya berkualitas tinggi.", image: "/testi-4.jpg" }
+      { name: "Indah Permata", role: "HR Manager, Circle K", content: "Seragam konveksi dari CCM hasilnya sangat rapi dan bahannya berkualitas tinggi.", image: "/testi-4.jpg" }
     ],
     about: { 
       experience: "8", 
@@ -201,15 +201,14 @@ export default function App() {
       { name: "Harlin Pirodi", role: "Manajer Projek", avatar: "/direksi-4.png" }
     ],
     projects: [
-      { title: "Astra Daihatsu Motor Karawang", category: "Construction", image: "/proyek-1.jpg" },
-      { title: "Supply Batu Andesit PT Bukit Asam", category: "Supplier", image: "/proyek-2.jpg" },
-      { title: "Perumahan Mutiara Gemilang", category: "Construction", image: "/proyek-3.jpg" },
-      { title: "Pembangunan Jembatan Regional", category: "Infrastructure", image: "/proyek-4.png" },
-      { title: "Gudang Logistik Muaraenim", category: "Construction", image: "/proyek-5.png" },
-      { title: "Infrastruktur Jalan Tol Sumsel", category: "Infrastructure", image: "/proyek-6.png" },
-      { title: "Supply Besi Beton Proyek PLTU", category: "Supplier", image: "proyek-7.png" },
-      { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-8.png" },
-      { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-8.png" }
+      { title: "Astra Daihatsu Motor Karawang", category: "Construction", image: "/proyek-1.jpg", detail: "Pembangunan fasilitas produksi otomotif dengan standar presisi tinggi." },
+      { title: "Supply Batu Andesit PT Bukit Asam", category: "Supplier", image: "/proyek-2.jpg", detail: "Suplai material split berkualitas tinggi untuk kebutuhan operasional tambang." },
+      { title: "Perumahan Mutiara Gemilang", category: "Construction", image: "/proyek-3.jpg", detail: "Pembangunan kawasan hunian modern yang mengutamakan kenyamanan." },
+      { title: "Pembangunan Jembatan Regional", category: "Infrastructure", image: "/proyek-4.png", detail: "Proyek infrastruktur sipil untuk memperlancar konektivitas wilayah." },
+      { title: "Gudang Logistik Muaraenim", category: "Construction", image: "/proyek-5.png", detail: "Pembangunan gudang distribusi dengan kapasitas muat besar." },
+      { title: "Infrastruktur Jalan Tol Sumsel", category: "Infrastructure", image: "/proyek-6.png", detail: "Dukungan suplai dan alat berat untuk percepatan jalan tol nasional." },
+      { title: "Supply Besi Beton Proyek PLTU", category: "Supplier", image: "/proyek-7.png", detail: "Suplai besi SNI untuk konstruksi fondasi pembangkit listrik." },
+      { title: "Konveksi Seragam Industri PT BA", category: "Supplier", image: "/proyek-8.png", detail: "Produksi wearpack standar K3 untuk pekerja lapangan tambang." }
     ],
     faqs: [
       { q: "Sejak kapan PT CCM beroperasi?", a: "Didirikan pada 19 Juli 2016 di Bandung dan kini fokus melayani wilayah Sumatera Selatan dan sekitarnya." },
@@ -219,21 +218,14 @@ export default function App() {
       { q: "Bagaimana cara melakukan kerja sama proyek dengan CCM?", a: "Anda dapat mengisi formulir kontak di website kami atau langsung menghubungi tim marketing via WhatsApp." },
       { q: "Apakah CCM melayani proyek di luar Sumatera Selatan?", a: "Ya, kami melayani proyek skala nasional tergantung pada kompleksitas dan jangkauan logistik yang dibutuhkan." },
       { q: "Berapa lama rata-rata waktu pengerjaan konstruksi?", a: "Waktu pengerjaan sangat bervariasi tergantung skala proyek, namun kami selalu berkomitmen pada timeline yang disepakati di awal kontrak." },
-      { q: "Apakah material yang disediakan memiliki uji laboratorium?", a: "Tentu. Setiap material strategis kami melewati uji kualitas internal dan laboratorium independen untuk memastikan standar SNI." },
-      { q: "Apa visi utama PT Chaerunisa Citra Mandiri?", a: "Menjadi perusahaan jasa konstruksi dan supplier terdepan yang mengutamakan kualitas, ketepatan waktu, dan inovasi berkelanjutan." },
-      { q: "Apakah CCM memiliki dukungan alat berat sendiri?", a: "Ya, kami memiliki beberapa unit alat berat pendukung serta jaringan kemitraan untuk memenuhi kebutuhan proyek skala besar." },
-      { q: "Jenis seragam apa yang diproduksi oleh unit konveksi CCM?", a: "Kami memproduksi Wearpack, seragam kantor, seragam lapangan industri, hingga atribut promosi perusahaan." },
-      { q: "Apakah CCM terdaftar sebagai rekanan resmi BUMN?", a: "Ya, kami telah bekerja sama dengan berbagai BUMN seperti PT Bukit Asam (Tbk) dan PT PLN (Persero)." },
-      { q: "Apa komitmen CCM terhadap keselamatan kerja (K3)?", a: "Keselamatan adalah prioritas nomor satu. Kami menerapkan standar K3 ketat di setiap lokasi proyek untuk menjamin keamanan seluruh personel." },
-      { q: "Bagaimana sistem pembayaran yang berlaku di CCM?", a: "Sistem pembayaran disesuaikan dengan kesepakatan kontrak, biasanya melalui termin bertahap sesuai progres pengerjaan atau pengiriman." },
-      { q: "Apakah CCM menerima permintaan suplai material dalam jumlah kecil?", a: "Kami fokus pada suplai menengah hingga besar (B2B), namun tetap terbuka untuk diskusi kebutuhan mitra retail tertentu." }
+      { q: "Apakah material yang disediakan memiliki uji laboratorium?", a: "Tentu. Setiap material strategis kami melewati uji kualitas internal dan laboratorium independen untuk memastikan standar SNI." }
     ],
     contact: {
       phone: "0811258995",
       email: "ccm@chaerunisa.co.id",
       address: "PT CHAERUNISA CITRA MANDIRI\nJl. Boulevard Komplek Citra Grand City\nOrchard Walk North, B. 08 No. 26\nAlang-Alang Lebar Kota Palembang\nKode Pos 30154 - Provinsi Sumatera Selatan",
       branch: "Jl. Lingkar Terminal Regional No. 24 Muaraenim",
-      googleMapsUrl: "https://maps.app.goo.gl/3ZKdLxF3cSMbEAeK7",
+      googleMapsUrl: "https://maps.app.goo.gl/kKUhdz52H3c8jKtM8",
       mapIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.6247493774845!2d104.68593447587747!3d-2.923838939515206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e3b74004944d185%3A0x6b68e986259f976a!2sPT%20Chaerunisa%20Citra%20Mandiri!5e0!3m2!1sid!2sid!4v1714570000000!5m2!1sid!2sid" 
     }
   });
@@ -331,18 +323,43 @@ export default function App() {
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
           <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={() => setActiveServiceModal(null)}></div>
           <div className="relative bg-white w-full max-w-2xl rounded-[3rem] shadow-3xl overflow-hidden animate-fade-in-up">
-              <div className="bg-[#0000ff] p-10 flex items-center justify-between text-white">
-                  <div className="flex items-center gap-6">
-                    <div className="p-4 bg-white/20 rounded-2xl">{getIcon(activeServiceModal.icon)}</div>
-                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none">{activeServiceModal.title}</h3>
+              <div className="bg-[#0000ff] p-10 flex items-center justify-between text-white text-white">
+                  <div className="flex items-center gap-6 text-white text-white">
+                    <div className="p-4 bg-white/20 rounded-2xl text-white text-white">{getIcon(activeServiceModal.icon)}</div>
+                    <h3 className="text-3xl font-black uppercase tracking-tighter leading-none text-white text-white">{activeServiceModal.title}</h3>
                   </div>
-                  <button onClick={() => setActiveServiceModal(null)} className="p-2 hover:rotate-90 transition-transform"><X size={32}/></button>
+                  <button onClick={() => setActiveServiceModal(null)} className="p-2 hover:rotate-90 transition-transform text-white text-white text-white"><X size={32}/></button>
               </div>
               <div className="p-10 text-slate-600 leading-relaxed text-lg italic">
                   "{activeServiceModal.longDesc}"
               </div>
               <div className="px-10 pb-10 flex justify-end">
-                  <a href="#contact" onClick={() => setActiveServiceModal(null)} className="bg-[#0000ff] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-700 transition-all flex items-center gap-3">Diskusikan Proyek <ChevronRight size={16}/></a>
+                  <a href="#contact" onClick={() => setActiveServiceModal(null)} className="bg-[#0000ff] text-white px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-700 transition-all flex items-center gap-3 text-white text-white">Diskusikan Proyek <ChevronRight size={16}/></a>
+              </div>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL PROYEK DETAIL (GALLERY ZOOM) */}
+      {activeProjectModal && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6">
+          <div className="absolute inset-0 bg-black/90 backdrop-blur-xl" onClick={() => setActiveProjectModal(null)}></div>
+          <div className="relative w-full max-w-5xl flex flex-col md:flex-row bg-white rounded-[3rem] overflow-hidden shadow-3xl animate-fade-in-up">
+              <div className="md:w-2/3 bg-slate-100 relative group">
+                <img src={activeProjectModal.image} alt={activeProjectModal.title} className="w-full h-full object-cover max-h-[70vh] md:max-h-full" />
+                <button onClick={() => setActiveProjectModal(null)} className="md:hidden absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full"><X/></button>
+              </div>
+              <div className="md:w-1/3 p-10 flex flex-col justify-between">
+                <div>
+                  <span className="bg-[#0000ff]/10 text-[#0000ff] px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-4 inline-block">{activeProjectModal.category}</span>
+                  <h3 className="text-3xl font-black uppercase tracking-tighter leading-tight mb-6">{activeProjectModal.title}</h3>
+                  <p className="text-slate-500 leading-relaxed text-sm mb-8">{activeProjectModal.detail || "Proyek strategis yang dikerjakan dengan standar teknik tinggi dan pengawasan mutu ketat untuk kepuasan mitra CCM."}</p>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest"><CheckCircle2 className="text-[#0000ff]" size={16}/> Selesai Tepat Waktu</div>
+                    <div className="flex items-center gap-3 text-xs font-bold text-slate-400 uppercase tracking-widest"><CheckCircle2 className="text-[#0000ff]" size={16}/> Sesuai Standar SNI</div>
+                  </div>
+                </div>
+                <button onClick={() => setActiveProjectModal(null)} className="hidden md:flex items-center justify-center gap-3 bg-[#1a202c] text-white py-4 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-[#0000ff] transition-all text-white">Tutup Detail</button>
               </div>
           </div>
         </div>
@@ -368,7 +385,7 @@ export default function App() {
       <nav className={`fixed top-0 w-full z-50 px-6 py-3 transition-all duration-500 ${scrolled ? 'bg-[#1a202c]/95 shadow-2xl backdrop-blur-md' : 'bg-transparent'}`}>
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3 group cursor-pointer text-white">
-            <img src={iconPath} alt="CCM Icon" className="h-10 w-10 md:h-12 md:w-12 object-contain transition-transform group-hover:scale-110" />
+            <img src={iconPath} alt="Logo PT Chaerunisa Citra Mandiri" className="h-10 w-10 md:h-12 md:w-12 object-contain transition-transform group-hover:scale-110" />
             <div className="flex flex-col">
               <span className="text-[10px] md:text-[12px] font-black leading-none uppercase tracking-tighter">PT CHAERUNISA CITRA <span className="text-[#0000ff]">MANDIRI</span></span>
             </div>
@@ -399,7 +416,7 @@ export default function App() {
       <section id="home" className="relative h-screen flex items-center pt-20 overflow-hidden bg-slate-900 text-white px-6">
         {siteData.hero.map((slide, index) => (
           <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}>
-            <img src={slide.image} className="w-full h-full object-cover scale-110" alt="Construction Hero" />
+            <img src={slide.image} className="w-full h-full object-cover scale-110" alt={`Visual Proyek Konstruksi PT CCM ${index + 1}`} />
             <div className="absolute inset-0 bg-gradient-to-r from-[#1a202c] via-[#1a202c]/80 to-transparent"></div>
           </div>
         ))}
@@ -408,9 +425,9 @@ export default function App() {
             <div className="inline-flex gap-2 px-4 py-2 bg-blue-600/20 border border-blue-500/30 rounded-full mb-8 text-[#0000ff] font-black text-[10px] uppercase tracking-widest"><Zap size={14}/> {siteData.hero[currentSlide]?.tag}</div>
             <h1 className="text-5xl md:text-8xl font-black mb-8 leading-[1.1] drop-shadow-2xl">{siteData.hero[currentSlide]?.title}</h1>
             <p className="text-gray-300 text-xl max-w-2xl mb-12 opacity-90 leading-relaxed font-medium">{siteData.hero[currentSlide]?.desc}</p>
-            <div className="flex flex-wrap gap-4 text-white">
+            <div className="flex flex-wrap gap-4 text-white text-white">
                 <a href="#contact" className="bg-[#0000ff] text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-700 shadow-2xl flex items-center gap-3 active:scale-95 transition-all text-white text-white">Mulai Sekarang <ChevronRight /></a>
-                <a href={siteData.comproUrl} target="_blank" rel="noopener noreferrer" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-black text-xl hover:bg-white/20 flex items-center gap-3 text-white"><FileDown size={24} /> Compro PDF</a>
+                <a href={siteData.comproUrl} target="_blank" rel="noopener noreferrer" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-black text-xl hover:bg-white/20 flex items-center gap-3 text-white text-white"><FileDown size={24} /> Compro PDF</a>
             </div>
           </div>
         </div>
@@ -418,10 +435,10 @@ export default function App() {
 
       {/* Clients Slider */}
       <section className="bg-slate-50 py-24 border-y border-slate-200 overflow-hidden relative text-slate-900">
-          <RevealSection className="max-w-7xl mx-auto px-6 mb-16 text-center text-slate-900">
+          <RevealSection className="max-w-7xl mx-auto px-6 mb-16 text-center">
             <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-[10px] mb-4 text-[#0000ff]">Mitra Strategis & Klien</h3>
-            <h2 className="text-3xl md:text-4xl font-black mb-6 text-slate-900">Dipercaya Oleh Berbagai Perusahaan Besar</h2>
-            <div className="w-16 h-1.5 bg-[#0000ff] mx-auto rounded-full text-slate-900"></div>
+            <h2 className="text-3xl md:text-4xl font-black mb-6 uppercase">Dipercaya Oleh Berbagai Perusahaan Besar</h2>
+            <div className="w-16 h-1.5 bg-[#0000ff] mx-auto rounded-full"></div>
           </RevealSection>
           <div className="flex relative whitespace-nowrap animate-infinite-scroll hover:[animation-play-state:paused]">
                 {[...siteData.clients, ...siteData.clients].map((client, i) => (
@@ -434,8 +451,8 @@ export default function App() {
       </section>
 
       {/* Achievements */}
-      <section className="py-24 bg-white text-slate-900 px-6">
-          <RevealSection className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8 text-slate-900">
+      <section className="py-24 bg-white text-slate-900 px-6 text-slate-900">
+          <RevealSection className="max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8">
               {siteData.stats.map((stat, i) => (
                   <div key={i} className="text-center p-8 bg-slate-50 rounded-[2.5rem] border border-slate-100 group hover:bg-[#0000ff] transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
                       <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm group-hover:rotate-12 transition-transform">{stat.icon}</div>
@@ -449,11 +466,11 @@ export default function App() {
       {/* Why Choose Us */}
       <section className="py-32 bg-[#1a202c] relative overflow-hidden text-white px-6">
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 blur-[100px]"></div>
-          <RevealSection className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center text-white">
+          <RevealSection className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
               <div className="lg:w-1/2">
                   <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4 uppercase text-[#0000ff]">Keunggulan Strategis</h3>
                   <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">Standar Tinggi, Hasil Presisi.</h2>
-                  <div className="space-y-6">
+                  <div className="space-y-6 text-white text-white">
                       {siteData.benefits.map((b, i) => (
                           <div key={i} className="flex gap-6 p-6 bg-white/5 rounded-3xl border border-white/10 hover:border-[#0000ff]/30 transition-all group">
                               <div className="w-12 h-12 rounded-2xl bg-[#0000ff]/20 flex items-center justify-center text-[#0000ff] shrink-0 group-hover:bg-[#0000ff] group-hover:text-white transition-all text-[#0000ff]"><TrendingUp size={24}/></div>
@@ -464,12 +481,12 @@ export default function App() {
               </div>
               <div className="lg:w-1/2 grid grid-cols-2 gap-4">
                   <div className="space-y-4 translate-y-8">
-                    <img src="/benefit-1.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-square object-cover" alt="Work 1" onError={(e) => e.target.src="https://images.unsplash.com/photo-1541913054-225c50406820?q=80&w=400"}/>
-                    <img src="/benefit-2.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-[4/5] object-cover" alt="Work 2" onError={(e) => e.target.src="https://images.unsplash.com/photo-1504307651254-35680f3366d4?q=80&w=400"}/>
+                    <img src="/benefit-1.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-square object-cover" alt="Benefit 1" />
+                    <img src="/benefit-2.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-[4/5] object-cover" alt="Benefit 2" />
                   </div>
                   <div className="space-y-4">
-                    <img src="/benefit-3.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-[4/5] object-cover" alt="Work 3" onError={(e) => e.target.src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?q=80&w=400"}/>
-                    <img src="/benefit-4.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-square object-cover" alt="Work 4" onError={(e) => e.target.src="https://images.unsplash.com/photo-1503387762-592be5a52680?q=80&w=400"}/>
+                    <img src="/benefit-3.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-[4/5] object-cover" alt="Benefit 3" />
+                    <img src="/benefit-4.jpg" className="rounded-[2rem] shadow-2xl border-4 border-[#0000ff]/20 w-full aspect-square object-cover" alt="Benefit 4" />
                   </div>
               </div>
           </RevealSection>
@@ -478,61 +495,56 @@ export default function App() {
       {/* Services Grid */}
       <section id="services" className="bg-slate-50 py-32 px-6 text-slate-900">
         <RevealSection className="max-w-7xl mx-auto">
-          <div className="text-center mb-20 text-slate-900">
-            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4 text-[#0000ff]">Solusi Terintegrasi</h3>
-            <h2 className="text-5xl font-black uppercase text-slate-900">Layanan Utama</h2>
-            <div className="w-24 h-2 bg-[#0000ff] mx-auto mt-6 rounded-full text-slate-900"></div>
+          <div className="text-center mb-20">
+            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4 uppercase text-[#0000ff]">Solusi Terintegrasi</h3>
+            <h2 className="text-5xl font-black uppercase">Layanan Utama</h2>
+            <div className="w-24 h-2 bg-[#0000ff] mx-auto mt-6 rounded-full"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-slate-900">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {siteData.services.map((s, i) => (
-              <div key={i} className="group p-10 bg-white rounded-[2.5rem] hover:bg-[#0000ff] transition-all border border-slate-100 shadow-xl flex flex-col h-full hover:-translate-y-2 text-slate-900">
+              <div key={i} className="group p-10 bg-white rounded-[2.5rem] hover:bg-[#0000ff] transition-all border border-slate-100 shadow-xl flex flex-col h-full hover:-translate-y-2">
                 <div className="text-[#0000ff] group-hover:text-white mb-8 p-4 bg-slate-50 w-fit rounded-2xl group-hover:bg-white/10 transition-colors text-[#0000ff]">{getIcon(s.icon)}</div>
-                <h4 className="text-2xl font-black group-hover:text-white mb-4 transition-colors uppercase tracking-tighter leading-tight text-slate-900">{s.title}</h4>
+                <h4 className="text-2xl font-black group-hover:text-white mb-4 transition-colors uppercase tracking-tighter leading-tight">{s.title}</h4>
                 <p className="text-slate-500 group-hover:text-blue-50 text-sm leading-relaxed mb-8 flex-grow">{s.desc}</p>
-                <button 
-                  onClick={() => setActiveServiceModal(s)}
-                  className="flex items-center gap-2 text-xs font-black group-hover:text-white uppercase tracking-widest mt-auto cursor-pointer outline-none active:scale-95 transition-all text-[#0000ff]"
-                >
-                  Selengkapnya <ChevronRight size={14} />
-                </button>
+                <button onClick={() => setActiveServiceModal(s)} className="flex items-center gap-2 text-xs font-black group-hover:text-white uppercase tracking-widest mt-auto cursor-pointer text-[#0000ff] outline-none">Selengkapnya <ChevronRight size={14} /></button>
               </div>
             ))}
           </div>
         </RevealSection>
       </section>
 
-      {/* RESTORED: Testimonials Section */}
-      <section id="testimonials" className="py-32 bg-white px-6">
-        <RevealSection className="max-w-7xl mx-auto text-center text-slate-900">
-            <div className="mb-20 text-slate-900">
-                <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4 text-[#0000ff]">Suara Mitra</h3>
-                <h2 className="text-5xl font-black uppercase text-slate-900">Testimoni Klien</h2>
-                <div className="w-24 h-2 bg-[#0000ff] mx-auto mt-6 rounded-full"></div>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                {siteData.testimonials.map((t, i) => (
-                    <TestimonialCard key={i} {...t} />
-                ))}
-            </div>
-        </RevealSection>
+      {/* RESTORED: Testimonials */}
+      <section id="testimonials" className="py-32 bg-white px-6 text-slate-900">
+          <RevealSection className="max-w-7xl mx-auto text-center">
+              <div className="mb-20">
+                  <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4 uppercase text-[#0000ff]">Suara Mitra</h3>
+                  <h2 className="text-5xl font-black uppercase">Testimoni Klien</h2>
+                  <div className="w-24 h-2 bg-[#0000ff] mx-auto mt-6 rounded-full text-[#0000ff]"></div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                  {siteData.testimonials.map((t, i) => (
+                      <TestimonialCard key={i} {...t} />
+                  ))}
+              </div>
+          </RevealSection>
       </section>
 
       {/* RESTORED: Founders Section */}
-      <section className="py-32 px-6 bg-slate-50 overflow-hidden text-slate-900">
+      <section className="py-32 px-6 bg-slate-50 overflow-hidden text-slate-900 text-slate-900">
         <RevealSection className="max-w-7xl mx-auto text-center">
-          <div className="mb-20 text-slate-900">
+          <div className="mb-20">
             <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4 uppercase text-[#0000ff]">Leadership</h3>
-            <h2 className="text-5xl font-black uppercase text-slate-900">Para Pendiri & Direksi</h2>
-            <div className="w-24 h-2 bg-[#0000ff] mx-auto mt-6 rounded-full"></div>
+            <h2 className="text-5xl font-black uppercase">Para Pendiri & Direksi</h2>
+            <div className="w-24 h-2 bg-[#0000ff] mx-auto mt-6 rounded-full text-[#0000ff]"></div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {siteData.founders.map((f, i) => (
               <div key={i} className="group relative rounded-[2.5rem] overflow-hidden shadow-xl aspect-[3/4] bg-white text-white">
                 <img src={f.avatar} alt={f.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110" onError={(e) => e.target.src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=400"} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent flex flex-col justify-end p-8 text-left translate-y-4 group-hover:translate-y-0 transition-transform">
-                  <p className="text-[#0000ff] text-[10px] font-black uppercase mb-1 tracking-widest">{f.role}</p>
+                  <p className="text-[#0000ff] text-[10px] font-black uppercase mb-1 tracking-widest text-[#0000ff]">{f.role}</p>
                   <h4 className="font-black text-lg leading-tight uppercase tracking-widest">{f.name}</h4>
-                  <div className="h-1 w-0 bg-[#0000ff] mt-4 group-hover:w-full transition-all duration-700"></div>
+                  <div className="h-1 w-0 bg-[#0000ff] mt-4 group-hover:w-full transition-all"></div>
                 </div>
               </div>
             ))}
@@ -543,27 +555,26 @@ export default function App() {
       {/* About Section */}
       <section id="about" className="py-32 px-6 bg-white relative overflow-hidden text-slate-900">
         <RevealSection className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-20 items-center">
-            <div className="lg:w-1/2 relative group text-slate-900">
-              <div className="rounded-[3rem] overflow-hidden shadow-3xl aspect-[4/3] border-8 border-white bg-slate-200">
+            <div className="lg:w-1/2 relative group">
+              <div className="rounded-[3rem] overflow-hidden shadow-3xl aspect-[4/3] border-8 border-white bg-slate-200 text-slate-900">
                 <img src={aboutPath} alt="CCM About" className="w-full h-full object-cover transition-transform group-hover:scale-105" onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1503387762-592be5a52680?q=80&w=800"; }} />
               </div>
-              <div className="absolute -bottom-10 right-0 sm:right-10 bg-white p-10 rounded-[2rem] shadow-2xl border-b-[10px] border-[#0000ff] text-center min-w-[200px]">
+              <div className="absolute -bottom-10 right-0 sm:right-10 bg-white p-10 rounded-[2rem] shadow-2xl border-b-[10px] border-[#0000ff] text-center min-w-[200px] text-slate-900">
                 <span className="text-7xl font-black text-slate-900 leading-none">{siteData.about.experience}<span className="text-[#0000ff]">+</span></span>
                 <p className="text-[10px] font-black text-slate-400 mt-3 uppercase tracking-[0.3em]">Tahun Melayani</p>
               </div>
             </div>
             <div className="lg:w-1/2 space-y-8 text-slate-900">
-              <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.4em] text-xs text-[#0000ff]">Visi & Misi</h3>
-              <h2 className="text-4xl md:text-6xl font-black leading-[1.1] uppercase text-slate-900">{siteData.about.title}</h2>
+              <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.4em] text-xs uppercase text-[#0000ff]">Visi & Misi</h3>
+              <h2 className="text-4xl md:text-6xl font-black leading-[1.1] uppercase">{siteData.about.title}</h2>
               <p className="text-slate-500 text-xl leading-relaxed opacity-90">{siteData.about.desc}</p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6 font-bold text-slate-800">
-                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl shadow-sm hover:bg-blue-50 transition-colors uppercase tracking-widest text-xs text-slate-900"><CheckCircle2 className="text-[#0000ff]" /> Keunggulan Kualitas</div>
-                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl shadow-sm hover:bg-blue-50 transition-colors uppercase tracking-widest text-xs text-slate-900"><CheckCircle2 className="text-[#0000ff]" /> Solusi Inovatif</div>
-                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl shadow-sm hover:bg-blue-50 transition-colors uppercase tracking-widest text-xs text-slate-900"><CheckCircle2 className="text-[#0000ff]" /> Keberlanjutan</div>
-                <div className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl shadow-sm hover:bg-blue-50 transition-colors uppercase tracking-widest text-xs text-slate-900"><CheckCircle2 className="text-[#0000ff]" /> Keandalan</div>
+                {['Keunggulan Kualitas', 'Solusi Inovatif', 'Keberlanjutan', 'Keandalan'].map((item) => (
+                   <div key={item} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl shadow-sm hover:bg-blue-50 transition-colors uppercase tracking-widest text-xs text-slate-900"><CheckCircle2 className="text-[#0000ff]" /> {item}</div>
+                ))}
               </div>
               <div className="pt-8 text-center sm:text-left">
-                  <a href={siteData.comproUrl} target="_blank" className="inline-flex items-center gap-4 bg-[#1a202c] text-white px-10 py-5 rounded-[2rem] font-black hover:bg-slate-800 transition-all shadow-xl hover:-translate-y-1 uppercase tracking-widest text-xs text-white">
+                  <a href={siteData.comproUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-[#1a202c] text-white px-10 py-5 rounded-[2rem] font-black hover:bg-slate-800 transition-all shadow-xl hover:-translate-y-1 uppercase tracking-widest text-xs text-white text-white">
                       <FileDown size={24} /> Unduh Company Profile PDF
                   </a>
               </div>
@@ -571,54 +582,61 @@ export default function App() {
         </RevealSection>
       </section>
 
-      {/* Projects Gallery */}
+      {/* Portfolio Gallery (DENGAN DETAIL MODAL) */}
       <section id="projects" className="py-32 px-6 bg-[#1a202c] text-white">
         <RevealSection className="max-w-7xl mx-auto">
-          <div className="text-center mb-16 text-white">
+          <div className="text-center mb-16">
             <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.2em] text-[10px] mb-4 text-[#0000ff]">Portfolio Unggulan</h3>
-            <h2 className="text-4xl md:text-5xl font-black mb-10 text-white uppercase">Hasil Kerja Kami</h2>
+            <h2 className="text-4xl md:text-5xl font-black mb-10 uppercase text-white">Hasil Kerja Kami</h2>
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               {['All', 'Construction', 'Supplier', 'Infrastructure'].map((filter) => (
-                <button key={filter} onClick={() => { setProjectFilter(filter); setShowAllProjects(false); }} className={`px-8 py-3 rounded-full font-black text-[10px] uppercase transition-all border-2 ${projectFilter === filter ? 'bg-[#0000ff] border-[#0000ff] text-white shadow-blue-500/30' : 'bg-transparent border-white/10 text-gray-400 hover:border-white/30 text-white'}`}>{filter}</button>
+                <button key={filter} onClick={() => { setProjectFilter(filter); setShowAllProjects(false); }} className={`px-8 py-3 rounded-full font-black text-[10px] uppercase transition-all border-2 ${projectFilter === filter ? 'bg-[#0000ff] border-[#0000ff] text-white shadow-blue-500/30 text-white' : 'bg-transparent border-white/10 text-gray-400 hover:border-white/30 text-white'}`}>{filter}</button>
               ))}
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 text-slate-900">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {displayedProjects.map((p, i) => (
-              <div key={i} className="group relative rounded-[2.5rem] overflow-hidden aspect-[1.1] shadow-2xl bg-[#2d3748] animate-fade-in-up border border-white/5" style={{ animationDelay: `${i * 100}ms` }}>
+              <div 
+                key={i} 
+                onClick={() => setActiveProjectModal(p)}
+                className="group relative rounded-[2.5rem] overflow-hidden aspect-[1.1] shadow-2xl bg-[#2d3748] animate-fade-in-up border border-white/5 cursor-pointer" 
+                style={{ animationDelay: `${i * 100}ms` }}
+              >
                 <img src={p.image} alt={p.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" onError={(e) => e.target.src="https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=400"} />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1a202c] via-[#1a202c]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute top-6 right-6 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
+                  <div className="p-4 bg-white/20 backdrop-blur-md rounded-full text-white"><Maximize2 size={20}/></div>
+                </div>
                 <div className="absolute inset-0 flex flex-col justify-end p-8 translate-y-8 group-hover:translate-y-0 transition-all duration-500">
                   <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-[2rem]">
-                    <span className="text-[#0000ff] text-[9px] font-black uppercase tracking-widest mb-2 block text-[#0000ff]">{p.category}</span>
+                    <span className="text-[#0000ff] text-[9px] font-black uppercase tracking-widest mb-2 block tracking-[0.2em] text-[#0000ff]">{p.category}</span>
                     <h4 className="text-white font-bold text-lg leading-tight group-hover:text-white transition-colors uppercase tracking-widest text-white">{p.title}</h4>
-                    <div className="mt-4 flex items-center gap-2 text-[10px] font-bold text-white/50 opacity-0 group-hover:opacity-100 transition-opacity text-white uppercase tracking-widest">Lihat Detail <ChevronRight size={12} /></div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
           {filteredProjects.length > 6 && (
-            <div className="mt-20 flex justify-center">
+            <div className="mt-20 flex justify-center text-white">
               <button onClick={() => setShowAllProjects(!showAllProjects)} className="group inline-flex items-center gap-4 bg-white text-slate-900 px-14 py-6 rounded-2xl font-black text-xs uppercase hover:bg-[#0000ff] hover:text-white transition-all active:scale-95 shadow-xl text-slate-900">
-                {showAllProjects ? <>Tampilkan Sedikit <Minus size={20}/></> : <>Lihat Seluruh Proyek <Plus size={20}/></>}
+                {showAllProjects ? <>Tampilkan Lebih Sedikit <Minus size={20}/></> : <>Lihat Seluruh Proyek <Plus size={20}/></>}
               </button>
             </div>
           )}
         </RevealSection>
       </section>
 
-      {/* FAQ Section */}
+      {/* FAQ */}
       <section id="faq" className="py-32 px-6 bg-white text-slate-900">
         <RevealSection className="max-w-3xl mx-auto space-y-12 text-slate-900">
           <div className="text-center text-slate-900">
-            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4 text-[#0000ff]">Tanya Jawab</h3>
+            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-xs mb-4 uppercase text-[#0000ff]">Tanya Jawab</h3>
             <h2 className="text-4xl font-black uppercase text-slate-900">Pertanyaan Umum</h2>
           </div>
-          <div className="space-y-4 text-slate-900">
+          <div className="space-y-4">
             {displayedFaqs.map((faq, i) => (
               <div key={i} className="bg-slate-50 rounded-3xl shadow-sm border border-slate-100 overflow-hidden transition-all duration-300 hover:shadow-md text-slate-900">
-                <button onClick={() => setActiveFaq(activeFaq === i ? null : i)} className="w-full flex items-center justify-between p-8 text-left group text-slate-900">
+                <button onClick={() => setActiveFaq(activeFaq === i ? null : i)} className="w-full flex items-center justify-between p-8 text-left group">
                   <span className={`font-black text-lg pr-8 transition-colors ${activeFaq === i ? 'text-[#0000ff]' : 'text-slate-800 group-hover:text-[#0000ff] uppercase tracking-widest text-slate-900'}`}>{faq.q}</span>
                   <div className={`p-2 rounded-full transition-all flex-shrink-0 ${activeFaq === i ? 'bg-[#0000ff] text-white rotate-180' : 'bg-white text-[#0000ff] text-[#0000ff]'}`}><ChevronDown size={20} /></div>
                 </button>
@@ -628,12 +646,8 @@ export default function App() {
           </div>
           {siteData.faqs.length > 5 && (
             <div className="mt-12 flex justify-center text-slate-900">
-              <button 
-                onClick={() => setShowAllFaqs(!showAllFaqs)} 
-                className="group inline-flex items-center gap-3 text-[#0000ff] font-black uppercase tracking-widest text-xs hover:gap-5 transition-all py-4 px-8 border-2 border-[#0000ff] rounded-2xl hover:bg-[#0000ff] hover:text-white text-[#0000ff]"
-              >
-                {showAllFaqs ? "Tampilkan Sedikit" : "Lihat Seluruh Pertanyaan FAQ"} 
-                {showAllFaqs ? <Minus size={18}/> : <Plus size={18}/>}
+              <button onClick={() => setShowAllFaqs(!showAllFaqs)} className="group inline-flex items-center gap-3 text-[#0000ff] font-black uppercase tracking-widest text-xs py-4 px-8 border-2 border-[#0000ff] rounded-2xl hover:bg-[#0000ff] hover:text-white transition-all text-[#0000ff]">
+                {showAllFaqs ? "Tampilkan Sedikit" : "Lihat Seluruh Pertanyaan FAQ"} {showAllFaqs ? <Minus size={18}/> : <Plus size={18}/>}
               </button>
             </div>
           )}
@@ -644,8 +658,8 @@ export default function App() {
       <section className="py-24 px-6 bg-[#1a202c]">
         <RevealSection className="max-w-7xl mx-auto text-white">
           <div className="text-center mb-16 text-white text-slate-900">
-            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-[10px] mb-4 text-[#0000ff]">Lokasi Kantor Kami</h3>
-            <h2 className="text-4xl md:text-5xl font-black leading-tight mb-8 text-white uppercase">Ayo Bangun Masa Depan <br/> Bersama Kami Hari Ini!</h2>
+            <h3 className="text-[#0000ff] font-bold uppercase tracking-[0.3em] text-[10px] mb-4 uppercase text-[#0000ff]">Lokasi Kantor Kami</h3>
+            <h2 className="text-4xl md:text-5xl font-black leading-tight mb-8 uppercase text-white">Ayo Bangun Proyek Besar <br/> Anda Bersama Kami Hari Ini!</h2>
             <div className="w-16 h-1.5 bg-[#0000ff] mx-auto rounded-full text-[#0000ff]"></div>
           </div>
           <MapDisplay 
@@ -659,32 +673,32 @@ export default function App() {
 
       {/* Contact Form Section */}
       <section id="contact" className="py-32 px-6 bg-white border-t border-slate-50 text-slate-900">
-        <RevealSection className="max-w-7xl mx-auto flex flex-col lg:flex-row rounded-[4rem] overflow-hidden bg-white shadow-3xl border border-slate-100">
-            <div className="lg:w-1/2 p-12 lg:p-24 bg-[#0000ff] text-white space-y-12 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-full bg-white/5 blur-3xl rounded-full translate-x-[-50%] text-white"></div>
+        <RevealSection className="max-w-7xl mx-auto flex flex-col lg:flex-row rounded-[4rem] overflow-hidden bg-white shadow-3xl border border-slate-100 text-slate-900">
+            <div className="lg:w-1/2 p-12 lg:p-24 bg-[#0000ff] text-white space-y-12 relative overflow-hidden text-white">
+                <div className="absolute top-0 left-0 w-full h-full bg-white/5 blur-3xl rounded-full translate-x-[-50%] text-white text-white"></div>
                 <div className="relative z-10 text-white">
                     <h2 className="text-5xl font-black mb-12 leading-tight uppercase text-white">Mulai Proyek <br/>Bersama Kami</h2>
                     <div className="space-y-10 text-white">
                         <a href={waLink} target="_blank" rel="noopener noreferrer" className="flex gap-6 items-center group cursor-pointer hover:bg-white/10 p-4 rounded-3xl transition-all text-white text-white">
                           <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl group-hover:bg-[#25D366] group-hover:text-white transition-all text-white"><WhatsAppIcon size={32}/></div>
-                          <div><p className="text-[10px] opacity-60 uppercase tracking-[0.3em] font-black mb-1 text-white">WhatsApp</p><p className="text-2xl font-bold text-white text-white">{siteData.contact.phone}</p></div>
+                          <div><p className="text-[10px] opacity-60 uppercase tracking-[0.3em] font-black mb-1 text-white text-white">WhatsApp</p><p className="text-2xl font-bold text-white text-white">{siteData.contact.phone}</p></div>
                         </a>
                         <a href={emailLink} className="flex gap-6 items-center group cursor-pointer hover:bg-white/10 p-4 rounded-3xl transition-all text-white">
                           <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl group-hover:bg-white group-hover:text-[#0000ff] transition-all text-white"><Mail size={32}/></div>
-                          <div><p className="text-[10px] opacity-60 uppercase tracking-[0.3em] font-black mb-1 text-white">Email Bisnis</p><p className="text-base font-bold text-white text-white">{siteData.contact.email}</p></div>
+                          <div><p className="text-[10px] opacity-60 uppercase tracking-[0.3em] font-black mb-1 text-white text-white text-white text-white">Email Bisnis</p><p className="text-base font-bold text-white text-white text-white">{siteData.contact.email}</p></div>
                         </a>
                     </div>
                 </div>
             </div>
             <div className="lg:w-1/2 p-12 lg:p-24 text-slate-900">
-                <form className="space-y-6" onSubmit={handleFormSubmit}>
+                <form className="space-y-6 text-slate-900" onSubmit={handleFormSubmit}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-slate-900">
                         <input required value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} type="text" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold focus:border-[#0000ff] transition-all text-sm text-slate-900" placeholder="Nama Lengkap" />
                         <input required value={formData.email} onChange={(e) => setFormData({...formData, email: e.target.value})} type="email" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold focus:border-[#0000ff] transition-all text-sm text-slate-900" placeholder="Email Perusahaan" />
                     </div>
                     <input required value={formData.phone} onChange={(e) => setFormData({...formData, phone: e.target.value})} type="tel" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold focus:border-[#0000ff] text-sm text-slate-900" placeholder="Nomor WhatsApp (Aktif)" />
                     <textarea required value={formData.message} onChange={(e) => setFormData({...formData, message: e.target.value})} className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 h-32 outline-none font-bold resize-none focus:border-[#0000ff] text-sm text-slate-900" placeholder="Tuliskan kebutuhan proyek Anda atau pertanyaan Anda di sini..."></textarea>
-                    <button disabled={submitStatus === 'loading'} type="submit" className="w-full bg-[#0000ff] text-white font-black py-6 rounded-2xl hover:bg-blue-700 transition-all flex items-center justify-center gap-4 shadow-xl text-xl active:scale-95 uppercase tracking-widest text-white text-white">
+                    <button disabled={submitStatus === 'loading'} type="submit" className="w-full bg-[#0000ff] text-white font-black py-6 rounded-2xl hover:bg-blue-700 transition-all flex items-center justify-center gap-4 shadow-xl text-xl active:scale-95 uppercase tracking-widest text-white text-white text-white">
                       {submitStatus === 'loading' ? <Loader2 className="animate-spin" /> : <><Send size={24} /> Kirim Pesan Sekarang</>}
                     </button>
                     {submitStatus === 'success' && <p className="text-green-600 font-bold text-center animate-bounce mt-4 tracking-widest text-xs uppercase">✓ PESAN BERHASIL DIKIRIM! TIM KAMI AKAN SEGERA MENGHUBUNGI ANDA.</p>}
@@ -694,40 +708,40 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#0b0f19] text-gray-400 py-24 px-6 text-white">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 border-t border-white/5 pt-16 text-white">
-          <div className="lg:col-span-2 text-white">
+      <footer className="bg-[#0b0f19] text-gray-400 py-24 px-6 text-white text-white">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 border-t border-white/5 pt-16 text-white text-white">
+          <div className="lg:col-span-2 text-white text-white text-white">
               <div className="flex items-center gap-3 mb-8 group cursor-pointer text-white">
-                <img src={logoPath} alt="Logo" className="h-16 w-16 object-contain" />
+                <img src={logoPath} alt="Logo Footer CCM" className="h-16 w-16 object-contain" />
                 <div className="flex flex-col text-white">
-                  <span className="text-xxl font-black uppercase text-white leading-none text-white">PT CHAERUNISA CITRA</span>
+                  <span className="text-xxl font-black uppercase text-white leading-none">PT CHAERUNISA CITRA</span>
                   <span className="text-xxl font-black text-[#0000ff] uppercase tracking-tighter leading-none text-[#0000ff]">MANDIRI</span>
                 </div>
               </div>
               <p className="text-lg font-medium leading-relaxed max-w-sm mb-8 opacity-70 text-white">Membangun masa depan dengan standar teknik tinggi, integritas terpercaya, dan solusi inovatif sejak 2016.</p>
-              <div className="flex gap-4 text-white">
+              <div className="flex gap-4 text-white text-white">
                   <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0000ff] cursor-pointer transition-all border border-white/10 group shadow-lg text-white text-white"><InstagramIcon /></div>
                   <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#0000ff] cursor-pointer transition-all border border-white/10 group shadow-lg text-white text-white"><LinkedinIcon /></div>
               </div>
           </div>
-          <div>
+          <div className="text-white text-white">
             <h4 className="text-white font-black uppercase tracking-widest mb-8 text-xs text-[#0000ff] tracking-[0.2em] text-white">Lokasi Operasional</h4>
             <div className="space-y-6 text-xs text-white/70">
-              <div className="flex gap-3 text-white text-white"><MapPin className="text-[#0000ff] shrink-0" size={16} /><p className="text-white"><strong>Palembang (HQ):</strong><br/>{siteData.contact.address}</p></div>
-              <div className="flex gap-3 text-white text-white"><MapPin className="text-[#0000ff] shrink-0" size={16} /><p className="text-white"><strong>Muaraenim (Branch):</strong><br/>{siteData.contact.branch}</p></div>
+              <div className="flex gap-3 text-white text-white text-white"><MapPin className="text-[#0000ff] shrink-0" size={16} /><p className="text-white"><strong>Palembang (HQ):</strong><br/>{siteData.contact.address}</p></div>
+              <div className="flex gap-3 text-white text-white text-white"><MapPin className="text-[#0000ff] shrink-0" size={16} /><p className="text-white"><strong>Muaraenim (Branch):</strong><br/>{siteData.contact.branch}</p></div>
             </div>
           </div>
-          <div>
+          <div className="text-white text-white">
             <h4 className="text-white font-black uppercase tracking-widest mb-8 text-xs text-[#0000ff] tracking-[0.2em] text-white">Akses Cepat</h4>
             <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-white text-white">
-                <li><a href="#home" className="hover:text-[#0000ff] transition-colors flex items-center gap-2 text-white"><ChevronRight size={12}/> BERANDA</a></li>
-                <li><a href="#projects" className="hover:text-[#0000ff] transition-colors flex items-center gap-2 text-white"><ChevronRight size={12}/> PORTFOLIO</a></li>
+                <li><a href="#home" className="hover:text-[#0000ff] transition-colors flex items-center gap-2 text-white">BERANDA</a></li>
+                <li><a href="#projects" className="hover:text-[#0000ff] transition-colors flex items-center gap-2 text-white text-white">PORTFOLIO</a></li>
                 <li><a href={siteData.comproUrl} target="_blank" className="text-[#0000ff] underline underline-offset-4 flex items-center gap-2 font-black uppercase text-[#0000ff]">DOWNLOAD COMPRO PDF</a></li>
-                <li><a href="#contact" className="hover:text-[#0000ff] transition-colors flex items-center gap-2 text-white"><ChevronRight size={12}/> HUBUNGI KAMI</a></li>
+                <li><a href="#contact" className="hover:text-[#0000ff] transition-colors flex items-center gap-2 text-white">HUBUNGI KAMI</a></li>
             </ul>
           </div>
         </div>
-        <p className="max-w-7xl mx-auto mt-16 text-[10px] uppercase font-black tracking-[0.5em] opacity-30 text-center text-white">© 2026 PT CHAERUNISA CITRA MANDIRI. ALL RIGHTS RESERVED.</p>
+        <p className="max-w-7xl mx-auto mt-16 text-[10px] uppercase font-black tracking-[0.5em] opacity-30 text-center text-white">© 2024 PT CHAERUNISA CITRA MANDIRI. ALL RIGHTS RESERVED.</p>
         <div className="flex gap-6 justify-center mt-4 text-[10px] uppercase font-black tracking-widest opacity-20 text-white text-white">
           <a href="#" className="text-white text-white">Privacy Policy</a>
           <a href="#" className="text-white text-white">Terms of Service</a>
