@@ -728,7 +728,6 @@ export default function App() {
             <h4 className="text-white font-black uppercase tracking-widest mb-8 text-xs text-[#0000ff] tracking-[0.2em] text-white">Lokasi Operasional</h4>
             <div className="space-y-6 text-xs text-white/70">
               <div className="flex gap-3 text-white text-white text-white"><MapPin className="text-[#0000ff] shrink-0" size={16} /><p className="text-white"><strong>Palembang (HQ):</strong><br/>{siteData.contact.address}</p></div>
-              <div className="flex gap-3 text-white text-white text-white"><MapPin className="text-[#0000ff] shrink-0" size={16} /><p className="text-white"><strong>Muaraenim (Branch):</strong><br/>{siteData.contact.branch}</p></div>
             </div>
           </div>
           <div className="text-white text-white">
