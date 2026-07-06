@@ -231,7 +231,9 @@ export default function App() {
   }
 });
   const waLink = useMemo(() => `https://wa.me/62${siteData.contact.phone.substring(1)}`, [siteData.contact.phone]);
-  const emailLink = useMemo(() => `mailto:${siteData.contact.email}`, [siteData.contact.email]);
+ // Pecah menjadi dua link mailto karena email berbentuk array
+const emailLink1 = useMemo(() => `mailto:${siteData.contact.email[0]}`, [siteData.contact.email]);
+const emailLink2 = useMemo(() => `mailto:${siteData.contact.email[1]}`, [siteData.contact.email]);
 
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', message: '' });
   const [submitStatus, setSubmitStatus] = useState(null);
@@ -683,11 +685,23 @@ export default function App() {
                           <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl group-hover:bg-[#25D366] group-hover:text-white transition-all text-white"><WhatsAppIcon size={32}/></div>
                           <div><p className="text-[10px] opacity-60 uppercase tracking-[0.3em] font-black mb-1 text-white text-white">WhatsApp</p><p className="text-2xl font-bold text-white text-white">{siteData.contact.phone}</p></div>
                         </a>
-                        <a href={emailLink} className="flex gap-6 items-center group cursor-pointer hover:bg-white/10 p-4 rounded-3xl transition-all text-white">
-                          <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl group-hover:bg-white group-hover:text-[#0000ff] transition-all text-white"><Mail size={32}/></div>
-                          <div><p className="text-[10px] opacity-60 uppercase tracking-[0.3em] font-black mb-1 text-white text-white text-white text-white">Email Bisnis</p><p className="text-base font-bold text-white text-white text-white">{siteData.contact.email}</p></div>
-                        </a>
-                    </div>
+                       </div>
+                  <div className="flex gap-6 items-start hover:bg-white/10 p-4 rounded-3xl transition-all text-white">
+  <div className="w-16 h-16 rounded-3xl bg-white/20 flex items-center justify-center shadow-2xl text-white mt-1">
+    <Mail size={32}/>
+  </div>
+  <div className="flex flex-col gap-1">
+    <p className="text-[10px] opacity-60 uppercase tracking-[0.3em] font-black mb-1 text-white">
+      Email Bisnis
+    </p>
+    <a href={emailLink1} className="text-base font-bold text-white hover:underline block">
+      {siteData.contact.email[0]}
+    </a>
+    <a href={emailLink2} className="text-base font-bold text-white hover:underline block">
+      {siteData.contact.email[1]}
+    </a>
+  </div>
+</div>
                 </div>
             </div>
             <div className="lg:w-1/2 p-12 lg:p-24 text-slate-900">
