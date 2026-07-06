@@ -222,14 +222,14 @@ export default function App() {
       { q: "Apakah material yang disediakan memiliki uji laboratorium?", a: "Tentu. Setiap material strategis kami melewati uji kualitas internal dan laboratorium independen untuk memastikan standar SNI." }
     ],
     contact: {
-      phone: "0811258995",
-      email: "ccm@chaerunisa.co.id",
-      address: "PT CHAERUNISA CITRA MANDIRI\nJl. Boulevard Komplek Ruko Citra Grand City\nOrchard Walk North, B. 08 No. 26\nAlang-Alang Lebar Kota Palembang\nKode Pos 30154 - Provinsi Sumatera Selatan",
-      googleMapsUrl: "https://maps.app.goo.gl/kKUhdz52H3c8jKtM8",
-      mapIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.6247493774845!2d104.68593447587747!3d-2.923838939515206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e3b74004944d185%3A0x6b68e986259f976a!2sPT%20Chaerunisa%20Citra%20Mandiri!5e0!3m2!1sid!2sid!4v1714570000000!5m2!1sid!2sid" 
-    }
-  });
-
+     phone: "0811258995",
+    // Mengubah email menjadi Array
+    email: ["ccm@chaerunisa.co.id", "chaerunisa.citra.mandiri@gmail.com"],
+    address: "PT CHAERUNISA CITRA MANDIRI\nJl. Boulevard Komplek Ruko Citra Grand City\nOrchard Walk North, B. 08 No. 26\nAlang-Alang Lebar Kota Palembang\nKode Pos 30154 - Provinsi Sumatera Selatan",
+    googleMapsUrl: "https://maps.app.goo.gl/kKUhdz52H3c8jKtM8",
+    mapIframe: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3984.6247493774845!2d104.68593447587747!3d-2.923838939515206!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e3b74004944d185%3A0x6b68e986259f976a!2sPT%20Chaerunisa%20Citra%20Mandiri!5e0!3m2!1sid!2sid!4v1714570000000!5m2!1sid!2sid" 
+  }
+});
   const waLink = useMemo(() => `https://wa.me/62${siteData.contact.phone.substring(1)}`, [siteData.contact.phone]);
   const emailLink = useMemo(() => `mailto:${siteData.contact.email}`, [siteData.contact.email]);
 
