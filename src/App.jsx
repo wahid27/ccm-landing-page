@@ -141,7 +141,7 @@ export default function App() {
       { label: " Selesai", value: "100+", icon: <Target className="text-orange-500" /> },
       { label: "Sertifikasi ISO", value: "9001", icon: <ShieldCheck className="text-blue-600" /> }
     ],
-    comproUrl: "https://drive.google.com/file/d/1jMjU3JMrWTXHsiwhlHPsnyxXxrhzll13/view?usp=sharing",
+    comproUrl: "https://drive.google.com/file/d/1r5S3gh49cGe_NXF8wkl4NFrA9B7-vPoz/view?usp=sharing",
     clients: [
       { name: "PT Bukit Asam, Tbk", icon: <Building2 className="text-orange-500" /> },
       { name: "PT PLN (Persero)", icon: <Zap className="text-blue-500" /> },
