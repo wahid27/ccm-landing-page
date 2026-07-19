@@ -429,7 +429,7 @@ const emailLink2 = useMemo(() => `mailto:${siteData.contact.email[1]}`, [siteDat
             <p className="text-gray-300 text-xl max-w-2xl mb-12 opacity-90 leading-relaxed font-medium">{siteData.hero[currentSlide]?.desc}</p>
             <div className="flex flex-wrap gap-4 text-white text-white">
                 <a href="#contact" className="bg-[#0000ff] text-white px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-700 shadow-2xl flex items-center gap-3 active:scale-95 transition-all text-white text-white">Mulai Sekarang <ChevronRight /></a>
-                <a href={siteData.comproUrl} target="_blank" rel="noopener noreferrer" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-black text-xl hover:bg-white/20 flex items-center gap-3 text-white text-white"><FileDown size={24} /> Compro PDF</a>
+                <a href={siteData.comproUrl} target="_blank" rel="noopener noreferrer" className="bg-white/10 backdrop-blur-md text-white border border-white/20 px-10 py-5 rounded-2xl font-black text-xl hover:bg-white/20 flex items-center gap-3 text-white text-white"><FileDown size={24} /> Company Profile</a>
             </div>
           </div>
         </div>
